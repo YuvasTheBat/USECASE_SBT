@@ -1,0 +1,4 @@
+[0m[[0m[0minfo[0m] [0m[0m[32mCustomerTransactionInfo:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test for valid transaction details path[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test for valid path of transaction data[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test for find new columns are there in transaction's flattened dataframe[0m[0m

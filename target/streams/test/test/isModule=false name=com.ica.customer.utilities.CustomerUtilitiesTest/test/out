@@ -1,0 +1,8 @@
+[0m[[0m[0minfo[0m] [0m[0m[32mCustomerUtilitiesTest:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Unit test case to check whether customer weekwise status dataframe count is not zero[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Unit test case to check number of columns is expected[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Unit test case to find whether customer weekwise status dataframe has new columns in it or not[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test for check weekly overall transaction details[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test for customer transaction[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Test for agewise transaction data of customer's[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Unit test case for transaction data to capture null[0m[0m
