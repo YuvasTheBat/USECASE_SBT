@@ -19,10 +19,10 @@ package com.ica.customer.info
 import java.io.FileNotFoundException
 
 import scala.util.{Failure, Success, Try}
-import org.apache.spark.sql.functions.{date_format,col}
-import org.apache.spark.sql.types.IntegerType
+import org.apache.spark.sql.functions.{col, date_format}
+import org.apache.spark.sql.types.{IntegerType, StructType}
 import com.ica.customer.session.SessionInit
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{DataFrame, types}
 object CustomerTransactionFlatten extends SessionInit {
 
   private val HEADER_FOR_TRANSACTION_DATA = true
@@ -32,9 +32,9 @@ object CustomerTransactionFlatten extends SessionInit {
    * @param pathC
    * @return transactionFlat
    */
-  def getTransactionDataFrame(pathC:String) : DataFrame = {
+  def getTransactionDataFrame(pathC:String,schema:StructType) : DataFrame = {
     val transaction = Try ({
-      val  transactionFlat = sprk.read.format("CSV").option("header", HEADER_FOR_TRANSACTION_DATA).option("mode", "DROPMALFORMED")
+      val  transactionFlat = sprk.read.format("CSV").schema(schema).option("mode", "DROPMALFORMED")
         .csv(pathC)
       transactionFlat
     })

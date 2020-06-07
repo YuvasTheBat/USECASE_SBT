@@ -41,44 +41,77 @@
 </span>17 <span style=''>package com.ica.customer.implementation
 </span>18 <span style=''>
 </span>19 <span style=''>import com.ica.customer.session.SessionInit
-</span>20 <span style=''>import com.ica.customer.info.{CustomerFlatten,CustomerOfferFlatten,CustomerTransactionFlatten}
+</span>20 <span style=''>import com.ica.customer.info.{CustomerFlatten, CustomerOfferFlatten, CustomerTransactionFlatten}
 </span>21 <span style=''>import com.ica.customer.utilities.CustomerUtilities
-</span>22 <span style=''>object CustomerMain extends SessionInit {
+</span>22 <span style=''>import java.util.Properties
 </span>23 <span style=''>
-</span>24 <span style=''>  def main(args:Array[String]): Unit = {
-</span>25 <span style=''>    val customerInfoPath = </span><span style='background: #F0ADAD'>&quot;C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\dob.csv&quot;</span><span style=''>
-</span>26 <span style=''>    val customerOfferInfo = </span><span style='background: #F0ADAD'>&quot;C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\offer.csv&quot;</span><span style=''>
-</span>27 <span style=''>    val weekOfYears = </span><span style='background: #F0ADAD'>&quot;C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\number.csv&quot;</span><span style=''>
-</span>28 <span style=''>    val transactionData = </span><span style='background: #F0ADAD'>&quot;C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\transaction.csv&quot;</span><span style=''>
-</span>29 <span style=''>    /** Flatten Customer Info */
-</span>30 <span style=''>    val getCustomerInfoDataFrame = </span><span style='background: #F0ADAD'>CustomerFlatten.getCustomerInfoDataFrame(sprk,customerInfoPath)</span><span style=''>
-</span>31 <span style=''>    </span><span style='background: #F0ADAD'>getCustomerInfoDataFrame.show()</span><span style=''>
-</span>32 <span style=''>    val customerCall = </span><span style='background: #F0ADAD'>CustomerFlatten.callCustomerInfo(getCustomerInfoDataFrame)</span><span style=''>
-</span>33 <span style=''>    </span><span style='background: #F0ADAD'>customerCall.show()</span><span style=''>
-</span>34 <span style=''>    /** Flatten Customer Offer Details */
-</span>35 <span style=''>    val getCustomerOfferInfo = </span><span style='background: #F0ADAD'>CustomerOfferFlatten.getCustomerOfferDataFrame(customerOfferInfo)</span><span style=''>
-</span>36 <span style=''>    val getWeeks = </span><span style='background: #F0ADAD'>CustomerOfferFlatten.getWeeksOfYear(weekOfYears)</span><span style=''>
-</span>37 <span style=''>    val customerOffers = </span><span style='background: #F0ADAD'>CustomerOfferFlatten.customerOfferCall(getCustomerOfferInfo,getWeeks)</span><span style=''>
-</span>38 <span style=''>    </span><span style='background: #F0ADAD'>customerOffers.show()</span><span style=''>
-</span>39 <span style=''>    /** Flatten customer transaction details*/
-</span>40 <span style=''>    val getCustomerTransaction = </span><span style='background: #F0ADAD'>CustomerTransactionFlatten.getTransactionDataFrame(transactionData)</span><span style=''>
-</span>41 <span style=''>    val transactionDetailsOfCustomer = </span><span style='background: #F0ADAD'>CustomerTransactionFlatten.callCustomerTransaction(getCustomerTransaction)</span><span style=''>
-</span>42 <span style=''>    </span><span style='background: #F0ADAD'>transactionDetailsOfCustomer.show()</span><span style=''>
-</span>43 <span style=''>
-</span>44 <span style=''>    /** Fetching each customer's weekly status */
-</span>45 <span style=''>    val customersWeeklyStatus = </span><span style='background: #F0ADAD'>CustomerUtilities.customerWiseweeklyStatus(customerCall,customerOffers,transactionDetailsOfCustomer)</span><span style=''>
-</span>46 <span style=''>    </span><span style='background: #F0ADAD'>customersWeeklyStatus.show()</span><span style=''>
-</span>47 <span style=''>
-</span>48 <span style=''>    /** Fetching overall weekly status */
-</span>49 <span style=''>    val overAllWeeklyStatus = </span><span style='background: #F0ADAD'>CustomerUtilities.customerOverAllWeeklyStatus(customersWeeklyStatus)</span><span style=''>
-</span>50 <span style=''>    </span><span style='background: #F0ADAD'>overAllWeeklyStatus.show()</span><span style=''>
-</span>51 <span style=''>
-</span>52 <span style=''>    /** Fetching customer's age groupwise details */
-</span>53 <span style=''>    val agewiseTransaction = </span><span style='background: #F0ADAD'>CustomerUtilities.customerTransactionResult(transactionDetailsOfCustomer,customerCall)</span><span style=''>
-</span>54 <span style=''>    val transactionOnAgeGroupWise = </span><span style='background: #F0ADAD'>CustomerUtilities.transactionOnAgeGroupWise(agewiseTransaction)</span><span style=''>
-</span>55 <span style=''>    </span><span style='background: #F0ADAD'>transactionOnAgeGroupWise.show()</span><span style=''>
-</span>56 <span style=''>  }
-</span>57 <span style=''>}
+</span>24 <span style=''>import org.apache.spark.sql.types.{StringType, StructField, StructType}
+</span>25 <span style=''>
+</span>26 <span style=''>import scala.io.Source
+</span>27 <span style=''>object CustomerMain extends SessionInit {
+</span>28 <span style=''>
+</span>29 <span style=''>  val prop = </span><span style='background: #AEF1AE'>new Properties()</span><span style=''>
+</span>30 <span style=''>  val propertiesPath = </span><span style='background: #AEF1AE'>getClass.getResource(&quot;/input.properties&quot;)</span><span style=''>
+</span>31 <span style=''>  if(</span><span style='background: #AEF1AE'>propertiesPath != null</span><span style=''>) </span><span style='background: #AEF1AE'>{
+</span>32 <span style=''></span><span style='background: #AEF1AE'>    val input = Source.fromURL(propertiesPath)
+</span>33 <span style=''></span><span style='background: #AEF1AE'>    prop.load(input.bufferedReader())
+</span>34 <span style=''></span><span style='background: #AEF1AE'>  }</span><span style=''>
+</span>35 <span style=''>  val customerInfoPath = </span><span style='background: #AEF1AE'>prop.getProperty(&quot;customer_info_data&quot;)</span><span style=''>
+</span>36 <span style=''>  val customerOfferInfo = </span><span style='background: #AEF1AE'>prop.getProperty(&quot;customer_offer_data&quot;)</span><span style=''>
+</span>37 <span style=''>  val weekOfYears = </span><span style='background: #AEF1AE'>prop.getProperty(&quot;week_number&quot;)</span><span style=''>
+</span>38 <span style=''>  val transactionData = </span><span style='background: #AEF1AE'>prop.getProperty(&quot;customer_transaction_data&quot;)</span><span style=''>
+</span>39 <span style=''>  /** Schema of Customer Info */
+</span>40 <span style=''>  val customerInfoSchema = </span><span style='background: #AEF1AE'>StructType(Array(StructField(&quot;cust_id&quot;, StringType, true),
+</span>41 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;cust_name&quot;, StringType, true),
+</span>42 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;cust_dob&quot;, StringType, true),
+</span>43 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;gender&quot;,StringType,true)))</span><span style=''>
+</span>44 <span style=''>  /** Schema for Customer Offer data */
+</span>45 <span style=''>  val customerOfferSchema = </span><span style='background: #AEF1AE'>StructType(Array(StructField(&quot;offer_id&quot;, StringType, true),
+</span>46 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;offer_name&quot;, StringType, true),
+</span>47 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;cust_id&quot;, StringType, true),
+</span>48 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;begin_date&quot;, StringType, true),
+</span>49 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;end_date&quot;,StringType,true)))</span><span style=''>
+</span>50 <span style=''>  /** Schema for Customer Transaction data */
+</span>51 <span style=''>  val customerTransactionSchema = </span><span style='background: #AEF1AE'>StructType(Array(StructField(&quot;transaction_id&quot;, StringType, true),
+</span>52 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;customer_id&quot;, StringType, true),
+</span>53 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;product_id&quot;, StringType, true),
+</span>54 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;store_id&quot;,StringType,true),
+</span>55 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;offer_id&quot;,StringType,true),
+</span>56 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;sales&quot;,StringType,true),
+</span>57 <span style=''></span><span style='background: #AEF1AE'>    StructField(&quot;date&quot;,StringType,true)))</span><span style=''>
+</span>58 <span style=''>
+</span>59 <span style=''>  def main(args:Array[String]): Unit = {
+</span>60 <span style=''>
+</span>61 <span style=''>    /** Flatten Customer Info */
+</span>62 <span style=''>    val getCustomerInfoDataFrame = </span><span style='background: #AEF1AE'>CustomerFlatten.getCustomerInfoDataFrame(sprk,customerInfoPath,customerInfoSchema)</span><span style=''>
+</span>63 <span style=''>    </span><span style='background: #AEF1AE'>getCustomerInfoDataFrame.show()</span><span style=''>
+</span>64 <span style=''>    val customerCall = </span><span style='background: #AEF1AE'>CustomerFlatten.callCustomerInfo(getCustomerInfoDataFrame)</span><span style=''>
+</span>65 <span style=''>    </span><span style='background: #AEF1AE'>customerCall.show()</span><span style=''>
+</span>66 <span style=''>    /** Flatten Customer Offer Details */
+</span>67 <span style=''>    val getCustomerOfferInfo = </span><span style='background: #AEF1AE'>CustomerOfferFlatten.getCustomerOfferDataFrame(customerOfferInfo,customerOfferSchema)</span><span style=''>
+</span>68 <span style=''>    val getWeeks = </span><span style='background: #AEF1AE'>CustomerOfferFlatten.getWeeksOfYear(weekOfYears)</span><span style=''>
+</span>69 <span style=''>    val customerOffers = </span><span style='background: #AEF1AE'>CustomerOfferFlatten.customerOfferCall(getCustomerOfferInfo,getWeeks)</span><span style=''>
+</span>70 <span style=''>    </span><span style='background: #AEF1AE'>customerOffers.show()</span><span style=''>
+</span>71 <span style=''>    /** Flatten customer transaction details*/
+</span>72 <span style=''>    val getCustomerTransaction = </span><span style='background: #AEF1AE'>CustomerTransactionFlatten.getTransactionDataFrame(transactionData,customerTransactionSchema)</span><span style=''>
+</span>73 <span style=''>    </span><span style='background: #AEF1AE'>getCustomerTransaction.show()</span><span style=''>
+</span>74 <span style=''>    val transactionDetailsOfCustomer = </span><span style='background: #AEF1AE'>CustomerTransactionFlatten.callCustomerTransaction(getCustomerTransaction)</span><span style=''>
+</span>75 <span style=''>    </span><span style='background: #AEF1AE'>transactionDetailsOfCustomer.show()</span><span style=''>
+</span>76 <span style=''>
+</span>77 <span style=''>    /** Fetching each customer's weekly status */
+</span>78 <span style=''>    val customersWeeklyStatus = </span><span style='background: #AEF1AE'>CustomerUtilities.customerWiseweeklyStatus(customerCall,customerOffers,transactionDetailsOfCustomer)</span><span style=''>
+</span>79 <span style=''>    </span><span style='background: #AEF1AE'>customersWeeklyStatus.show()</span><span style=''>
+</span>80 <span style=''>
+</span>81 <span style=''>    /** Fetching overall weekly status */
+</span>82 <span style=''>    val overAllWeeklyStatus = </span><span style='background: #AEF1AE'>CustomerUtilities.customerOverAllWeeklyStatus(customersWeeklyStatus)</span><span style=''>
+</span>83 <span style=''>    </span><span style='background: #AEF1AE'>overAllWeeklyStatus.show()</span><span style=''>
+</span>84 <span style=''>
+</span>85 <span style=''>    /** Fetching customer's age groupwise details */
+</span>86 <span style=''>    val agewiseTransaction = </span><span style='background: #AEF1AE'>CustomerUtilities.customerTransactionResult(transactionDetailsOfCustomer,customerCall)</span><span style=''>
+</span>87 <span style=''>    val transactionOnAgeGroupWise = </span><span style='background: #AEF1AE'>CustomerUtilities.transactionOnAgeGroupWise(agewiseTransaction)</span><span style=''>
+</span>88 <span style=''>    </span><span style='background: #AEF1AE'>transactionOnAgeGroupWise.show()</span><span style=''>
+</span>89 <span style=''>  }
+</span>90 <span style=''>}
 </span></pre>
           </div>
           <div class="tab-pane" id="statementlist">
@@ -92,286 +125,877 @@
         <th>Code</th>
       </tr><tr>
         <td>
-          25
+          29
         </td>
         <td>
           1
         </td>
         <td>
-          1097
+          1173
           -
-          1164
-        </td>
-        <td>
-          Literal
-        </td>
-        <td>
-          &lt;nosymbol&gt;
-        </td>
-        <td style="background: #F0ADAD">
-          &quot;C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\dob.csv&quot;
-        </td>
-      </tr><tr>
-        <td>
-          26
-        </td>
-        <td>
-          2
-        </td>
-        <td>
-          1194
-          -
-          1263
-        </td>
-        <td>
-          Literal
-        </td>
-        <td>
-          &lt;nosymbol&gt;
-        </td>
-        <td style="background: #F0ADAD">
-          &quot;C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\offer.csv&quot;
-        </td>
-      </tr><tr>
-        <td>
-          27
-        </td>
-        <td>
-          3
-        </td>
-        <td>
-          1287
-          -
-          1357
-        </td>
-        <td>
-          Literal
-        </td>
-        <td>
-          &lt;nosymbol&gt;
-        </td>
-        <td style="background: #F0ADAD">
-          &quot;C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\number.csv&quot;
-        </td>
-      </tr><tr>
-        <td>
-          28
-        </td>
-        <td>
-          4
-        </td>
-        <td>
-          1385
-          -
-          1460
-        </td>
-        <td>
-          Literal
-        </td>
-        <td>
-          &lt;nosymbol&gt;
-        </td>
-        <td style="background: #F0ADAD">
-          &quot;C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\transaction.csv&quot;
-        </td>
-      </tr><tr>
-        <td>
-          30
-        </td>
-        <td>
-          5
-        </td>
-        <td>
-          1572
-          -
-          1576
-        </td>
-        <td>
-          Select
-        </td>
-        <td>
-          com.ica.customer.session.SessionInit.sprk
-        </td>
-        <td style="background: #F0ADAD">
-          CustomerMain.this.sprk
-        </td>
-      </tr><tr>
-        <td>
-          30
-        </td>
-        <td>
-          6
-        </td>
-        <td>
-          1531
-          -
-          1594
+          1189
         </td>
         <td>
           Apply
         </td>
         <td>
-          com.ica.customer.info.CustomerFlatten.getCustomerInfoDataFrame
+          java.util.Properties.&lt;init&gt;
         </td>
-        <td style="background: #F0ADAD">
-          com.ica.customer.info.CustomerFlatten.getCustomerInfoDataFrame(CustomerMain.this.sprk, customerInfoPath)
+        <td style="background: #AEF1AE">
+          new java.util.Properties()
+        </td>
+      </tr><tr>
+        <td>
+          30
+        </td>
+        <td>
+          2
+        </td>
+        <td>
+          1214
+          -
+          1255
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          java.lang.Class.getResource
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerMain.this.getClass().getResource(&quot;/input.properties&quot;)
         </td>
       </tr><tr>
         <td>
           31
         </td>
         <td>
-          7
+          8
         </td>
         <td>
-          1600
+          1286
           -
-          1631
+          1379
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          {
+  val input: scala.io.BufferedSource = scala.io.Source.fromURL(CustomerMain.this.propertiesPath)(io.this.Codec.fallbackSystemCodec);
+  CustomerMain.this.prop.load(input.bufferedReader())
+}
+        </td>
+      </tr><tr>
+        <td>
+          31
+        </td>
+        <td>
+          10
+        </td>
+        <td>
+          1259
+          -
+          1259
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #F0ADAD">
+          ()
+        </td>
+      </tr><tr>
+        <td>
+          31
+        </td>
+        <td>
+          9
+        </td>
+        <td>
+          1259
+          -
+          1259
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #F0ADAD">
+          ()
+        </td>
+      </tr><tr>
+        <td>
+          31
+        </td>
+        <td>
+          3
+        </td>
+        <td>
+          1262
+          -
+          1284
         </td>
         <td>
           Apply
         </td>
         <td>
-          org.apache.spark.sql.Dataset.show
+          java.lang.Object.!=
         </td>
-        <td style="background: #F0ADAD">
-          getCustomerInfoDataFrame.show()
+        <td style="background: #AEF1AE">
+          CustomerMain.this.propertiesPath.!=(null)
         </td>
       </tr><tr>
         <td>
           32
         </td>
         <td>
-          8
+          5
         </td>
         <td>
-          1656
+          1305
           -
-          1714
+          1335
         </td>
         <td>
-          Apply
+          ApplyToImplicitArgs
         </td>
         <td>
-          com.ica.customer.info.CustomerFlatten.callCustomerInfo
+          scala.io.Source.fromURL
         </td>
-        <td style="background: #F0ADAD">
-          com.ica.customer.info.CustomerFlatten.callCustomerInfo(getCustomerInfoDataFrame)
+        <td style="background: #AEF1AE">
+          scala.io.Source.fromURL(CustomerMain.this.propertiesPath)(io.this.Codec.fallbackSystemCodec)
+        </td>
+      </tr><tr>
+        <td>
+          32
+        </td>
+        <td>
+          4
+        </td>
+        <td>
+          1320
+          -
+          1334
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          com.ica.customer.implementation.CustomerMain.propertiesPath
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerMain.this.propertiesPath
         </td>
       </tr><tr>
         <td>
           33
         </td>
         <td>
-          9
+          7
         </td>
         <td>
-          1720
+          1341
           -
-          1739
+          1374
         </td>
         <td>
           Apply
         </td>
         <td>
-          org.apache.spark.sql.Dataset.show
+          java.util.Properties.load
         </td>
-        <td style="background: #F0ADAD">
-          customerCall.show()
+        <td style="background: #AEF1AE">
+          CustomerMain.this.prop.load(input.bufferedReader())
+        </td>
+      </tr><tr>
+        <td>
+          33
+        </td>
+        <td>
+          6
+        </td>
+        <td>
+          1351
+          -
+          1373
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          scala.io.BufferedSource.bufferedReader
+        </td>
+        <td style="background: #AEF1AE">
+          input.bufferedReader()
         </td>
       </tr><tr>
         <td>
           35
         </td>
         <td>
-          10
+          11
         </td>
         <td>
-          1815
+          1406
           -
-          1880
+          1444
         </td>
         <td>
           Apply
         </td>
         <td>
-          com.ica.customer.info.CustomerOfferFlatten.getCustomerOfferDataFrame
+          java.util.Properties.getProperty
         </td>
-        <td style="background: #F0ADAD">
-          com.ica.customer.info.CustomerOfferFlatten.getCustomerOfferDataFrame(customerOfferInfo)
+        <td style="background: #AEF1AE">
+          CustomerMain.this.prop.getProperty(&quot;customer_info_data&quot;)
         </td>
       </tr><tr>
         <td>
           36
         </td>
         <td>
-          11
+          12
         </td>
         <td>
-          1901
+          1472
           -
-          1949
+          1511
         </td>
         <td>
           Apply
         </td>
         <td>
-          com.ica.customer.info.CustomerOfferFlatten.getWeeksOfYear
+          java.util.Properties.getProperty
         </td>
-        <td style="background: #F0ADAD">
-          com.ica.customer.info.CustomerOfferFlatten.getWeeksOfYear(weekOfYears)
+        <td style="background: #AEF1AE">
+          CustomerMain.this.prop.getProperty(&quot;customer_offer_data&quot;)
         </td>
       </tr><tr>
         <td>
           37
         </td>
         <td>
-          12
+          13
         </td>
         <td>
-          1976
+          1533
           -
-          2045
+          1564
         </td>
         <td>
           Apply
         </td>
         <td>
-          com.ica.customer.info.CustomerOfferFlatten.customerOfferCall
+          java.util.Properties.getProperty
         </td>
-        <td style="background: #F0ADAD">
-          com.ica.customer.info.CustomerOfferFlatten.customerOfferCall(getCustomerOfferInfo, getWeeks)
+        <td style="background: #AEF1AE">
+          CustomerMain.this.prop.getProperty(&quot;week_number&quot;)
         </td>
       </tr><tr>
         <td>
           38
         </td>
         <td>
-          13
+          14
         </td>
         <td>
-          2051
+          1590
           -
-          2072
+          1635
         </td>
         <td>
           Apply
         </td>
         <td>
-          org.apache.spark.sql.Dataset.show
+          java.util.Properties.getProperty
         </td>
-        <td style="background: #F0ADAD">
-          customerOffers.show()
+        <td style="background: #AEF1AE">
+          CustomerMain.this.prop.getProperty(&quot;customer_transaction_data&quot;)
         </td>
       </tr><tr>
         <td>
           40
         </td>
         <td>
-          14
+          35
         </td>
         <td>
-          2155
+          1709
+          -
+          1897
+        </td>
+        <td>
+          ApplyToImplicitArgs
+        </td>
+        <td>
+          scala.Array.apply
+        </td>
+        <td style="background: #AEF1AE">
+          scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply(&quot;cust_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;cust_name&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;cust_dob&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;gender&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField]))
+        </td>
+      </tr><tr>
+        <td>
+          40
+        </td>
+        <td>
+          17
+        </td>
+        <td>
+          1750
+          -
+          1754
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          40
+        </td>
+        <td>
+          16
+        </td>
+        <td>
+          1738
+          -
+          1748
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          40
+        </td>
+        <td>
+          19
+        </td>
+        <td>
+          1715
+          -
+          1755
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;cust_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          40
+        </td>
+        <td>
+          36
+        </td>
+        <td>
+          1698
+          -
+          1898
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructType.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructType.apply(scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply(&quot;cust_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;cust_name&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;cust_dob&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;gender&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField])))
+        </td>
+      </tr><tr>
+        <td>
+          40
+        </td>
+        <td>
+          18
+        </td>
+        <td>
+          1715
+          -
+          1715
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          40
+        </td>
+        <td>
+          15
+        </td>
+        <td>
+          1727
+          -
+          1736
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;cust_id&quot;
+        </td>
+      </tr><tr>
+        <td>
+          41
+        </td>
+        <td>
+          23
+        </td>
+        <td>
+          1762
+          -
+          1762
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          41
+        </td>
+        <td>
+          20
+        </td>
+        <td>
+          1774
+          -
+          1785
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;cust_name&quot;
+        </td>
+      </tr><tr>
+        <td>
+          41
+        </td>
+        <td>
+          22
+        </td>
+        <td>
+          1799
+          -
+          1803
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          41
+        </td>
+        <td>
+          21
+        </td>
+        <td>
+          1787
+          -
+          1797
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          41
+        </td>
+        <td>
+          24
+        </td>
+        <td>
+          1762
+          -
+          1804
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;cust_name&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          26
+        </td>
+        <td>
+          1835
+          -
+          1845
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          29
+        </td>
+        <td>
+          1811
+          -
+          1852
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;cust_dob&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          25
+        </td>
+        <td>
+          1823
+          -
+          1833
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;cust_dob&quot;
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          28
+        </td>
+        <td>
+          1811
+          -
+          1811
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          27
+        </td>
+        <td>
+          1847
+          -
+          1851
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          43
+        </td>
+        <td>
+          32
+        </td>
+        <td>
+          1891
+          -
+          1895
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          43
+        </td>
+        <td>
+          31
+        </td>
+        <td>
+          1880
+          -
+          1890
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          43
+        </td>
+        <td>
+          34
+        </td>
+        <td>
+          1859
+          -
+          1896
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;gender&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          43
+        </td>
+        <td>
+          30
+        </td>
+        <td>
+          1871
+          -
+          1879
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;gender&quot;
+        </td>
+      </tr><tr>
+        <td>
+          43
+        </td>
+        <td>
+          33
+        </td>
+        <td>
+          1859
+          -
+          1859
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          45
+        </td>
+        <td>
+          41
+        </td>
+        <td>
+          1986
+          -
+          2027
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;offer_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          45
+        </td>
+        <td>
+          62
+        </td>
+        <td>
+          1980
+          -
+          2221
+        </td>
+        <td>
+          ApplyToImplicitArgs
+        </td>
+        <td>
+          scala.Array.apply
+        </td>
+        <td style="background: #AEF1AE">
+          scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply(&quot;offer_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;offer_name&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;cust_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;begin_date&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;end_date&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField]))
+        </td>
+      </tr><tr>
+        <td>
+          45
+        </td>
+        <td>
+          38
+        </td>
+        <td>
+          2010
+          -
+          2020
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          45
+        </td>
+        <td>
+          40
+        </td>
+        <td>
+          1986
+          -
+          1986
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          45
+        </td>
+        <td>
+          37
+        </td>
+        <td>
+          1998
+          -
+          2008
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;offer_id&quot;
+        </td>
+      </tr><tr>
+        <td>
+          45
+        </td>
+        <td>
+          63
+        </td>
+        <td>
+          1969
           -
           2222
         </td>
@@ -379,22 +1003,1618 @@
           Apply
         </td>
         <td>
-          com.ica.customer.info.CustomerTransactionFlatten.getTransactionDataFrame
+          org.apache.spark.sql.types.StructType.apply
         </td>
-        <td style="background: #F0ADAD">
-          com.ica.customer.info.CustomerTransactionFlatten.getTransactionDataFrame(transactionData)
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructType.apply(scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply(&quot;offer_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;offer_name&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;cust_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;begin_date&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;end_date&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField])))
         </td>
       </tr><tr>
         <td>
-          41
+          45
         </td>
         <td>
-          15
+          39
         </td>
         <td>
-          2263
+          2022
           -
-          2337
+          2026
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          46
+        </td>
+        <td>
+          44
+        </td>
+        <td>
+          2072
+          -
+          2076
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          46
+        </td>
+        <td>
+          46
+        </td>
+        <td>
+          2034
+          -
+          2077
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;offer_name&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          46
+        </td>
+        <td>
+          43
+        </td>
+        <td>
+          2060
+          -
+          2070
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          46
+        </td>
+        <td>
+          45
+        </td>
+        <td>
+          2034
+          -
+          2034
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          46
+        </td>
+        <td>
+          42
+        </td>
+        <td>
+          2046
+          -
+          2058
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;offer_name&quot;
+        </td>
+      </tr><tr>
+        <td>
+          47
+        </td>
+        <td>
+          50
+        </td>
+        <td>
+          2084
+          -
+          2084
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          47
+        </td>
+        <td>
+          47
+        </td>
+        <td>
+          2096
+          -
+          2105
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;cust_id&quot;
+        </td>
+      </tr><tr>
+        <td>
+          47
+        </td>
+        <td>
+          49
+        </td>
+        <td>
+          2119
+          -
+          2123
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          47
+        </td>
+        <td>
+          48
+        </td>
+        <td>
+          2107
+          -
+          2117
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          47
+        </td>
+        <td>
+          51
+        </td>
+        <td>
+          2084
+          -
+          2124
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;cust_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          48
+        </td>
+        <td>
+          53
+        </td>
+        <td>
+          2157
+          -
+          2167
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          48
+        </td>
+        <td>
+          56
+        </td>
+        <td>
+          2131
+          -
+          2174
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;begin_date&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          48
+        </td>
+        <td>
+          55
+        </td>
+        <td>
+          2131
+          -
+          2131
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          48
+        </td>
+        <td>
+          52
+        </td>
+        <td>
+          2143
+          -
+          2155
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;begin_date&quot;
+        </td>
+      </tr><tr>
+        <td>
+          48
+        </td>
+        <td>
+          54
+        </td>
+        <td>
+          2169
+          -
+          2173
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          49
+        </td>
+        <td>
+          59
+        </td>
+        <td>
+          2215
+          -
+          2219
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          49
+        </td>
+        <td>
+          58
+        </td>
+        <td>
+          2204
+          -
+          2214
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          49
+        </td>
+        <td>
+          61
+        </td>
+        <td>
+          2181
+          -
+          2220
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;end_date&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          49
+        </td>
+        <td>
+          60
+        </td>
+        <td>
+          2181
+          -
+          2181
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          49
+        </td>
+        <td>
+          57
+        </td>
+        <td>
+          2193
+          -
+          2203
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;end_date&quot;
+        </td>
+      </tr><tr>
+        <td>
+          51
+        </td>
+        <td>
+          68
+        </td>
+        <td>
+          2322
+          -
+          2369
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;transaction_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          51
+        </td>
+        <td>
+          65
+        </td>
+        <td>
+          2352
+          -
+          2362
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          51
+        </td>
+        <td>
+          100
+        </td>
+        <td>
+          2305
+          -
+          2649
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructType.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructType.apply(scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply(&quot;transaction_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;customer_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;product_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;store_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;offer_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;sales&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;date&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField])))
+        </td>
+      </tr><tr>
+        <td>
+          51
+        </td>
+        <td>
+          64
+        </td>
+        <td>
+          2334
+          -
+          2350
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;transaction_id&quot;
+        </td>
+      </tr><tr>
+        <td>
+          51
+        </td>
+        <td>
+          67
+        </td>
+        <td>
+          2322
+          -
+          2322
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          51
+        </td>
+        <td>
+          99
+        </td>
+        <td>
+          2316
+          -
+          2648
+        </td>
+        <td>
+          ApplyToImplicitArgs
+        </td>
+        <td>
+          scala.Array.apply
+        </td>
+        <td style="background: #AEF1AE">
+          scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply(&quot;transaction_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;customer_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;product_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;store_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;offer_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;sales&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply(&quot;date&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField]))
+        </td>
+      </tr><tr>
+        <td>
+          51
+        </td>
+        <td>
+          66
+        </td>
+        <td>
+          2364
+          -
+          2368
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          52
+        </td>
+        <td>
+          71
+        </td>
+        <td>
+          2415
+          -
+          2419
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          52
+        </td>
+        <td>
+          73
+        </td>
+        <td>
+          2376
+          -
+          2420
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;customer_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          52
+        </td>
+        <td>
+          70
+        </td>
+        <td>
+          2403
+          -
+          2413
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          52
+        </td>
+        <td>
+          69
+        </td>
+        <td>
+          2388
+          -
+          2401
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;customer_id&quot;
+        </td>
+      </tr><tr>
+        <td>
+          52
+        </td>
+        <td>
+          72
+        </td>
+        <td>
+          2376
+          -
+          2376
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          53
+        </td>
+        <td>
+          77
+        </td>
+        <td>
+          2427
+          -
+          2427
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          53
+        </td>
+        <td>
+          74
+        </td>
+        <td>
+          2439
+          -
+          2451
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;product_id&quot;
+        </td>
+      </tr><tr>
+        <td>
+          53
+        </td>
+        <td>
+          76
+        </td>
+        <td>
+          2465
+          -
+          2469
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          53
+        </td>
+        <td>
+          78
+        </td>
+        <td>
+          2427
+          -
+          2470
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;product_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          53
+        </td>
+        <td>
+          75
+        </td>
+        <td>
+          2453
+          -
+          2463
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          54
+        </td>
+        <td>
+          83
+        </td>
+        <td>
+          2477
+          -
+          2516
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;store_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          54
+        </td>
+        <td>
+          80
+        </td>
+        <td>
+          2500
+          -
+          2510
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          54
+        </td>
+        <td>
+          82
+        </td>
+        <td>
+          2477
+          -
+          2477
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          54
+        </td>
+        <td>
+          79
+        </td>
+        <td>
+          2489
+          -
+          2499
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;store_id&quot;
+        </td>
+      </tr><tr>
+        <td>
+          54
+        </td>
+        <td>
+          81
+        </td>
+        <td>
+          2511
+          -
+          2515
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          55
+        </td>
+        <td>
+          86
+        </td>
+        <td>
+          2557
+          -
+          2561
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          55
+        </td>
+        <td>
+          85
+        </td>
+        <td>
+          2546
+          -
+          2556
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          55
+        </td>
+        <td>
+          88
+        </td>
+        <td>
+          2523
+          -
+          2562
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;offer_id&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          55
+        </td>
+        <td>
+          87
+        </td>
+        <td>
+          2523
+          -
+          2523
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          55
+        </td>
+        <td>
+          84
+        </td>
+        <td>
+          2535
+          -
+          2545
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;offer_id&quot;
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          92
+        </td>
+        <td>
+          2569
+          -
+          2569
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          89
+        </td>
+        <td>
+          2581
+          -
+          2588
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;sales&quot;
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          91
+        </td>
+        <td>
+          2600
+          -
+          2604
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          90
+        </td>
+        <td>
+          2589
+          -
+          2599
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          93
+        </td>
+        <td>
+          2569
+          -
+          2605
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;sales&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          57
+        </td>
+        <td>
+          95
+        </td>
+        <td>
+          2631
+          -
+          2641
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StringType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StringType
+        </td>
+      </tr><tr>
+        <td>
+          57
+        </td>
+        <td>
+          98
+        </td>
+        <td>
+          2612
+          -
+          2647
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply(&quot;date&quot;, org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+        </td>
+      </tr><tr>
+        <td>
+          57
+        </td>
+        <td>
+          94
+        </td>
+        <td>
+          2624
+          -
+          2630
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;date&quot;
+        </td>
+      </tr><tr>
+        <td>
+          57
+        </td>
+        <td>
+          97
+        </td>
+        <td>
+          2612
+          -
+          2612
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.StructField.apply$default$4
+        </td>
+      </tr><tr>
+        <td>
+          57
+        </td>
+        <td>
+          96
+        </td>
+        <td>
+          2642
+          -
+          2646
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          true
+        </td>
+      </tr><tr>
+        <td>
+          62
+        </td>
+        <td>
+          101
+        </td>
+        <td>
+          2807
+          -
+          2811
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          com.ica.customer.session.SessionInit.sprk
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerMain.this.sprk
+        </td>
+      </tr><tr>
+        <td>
+          62
+        </td>
+        <td>
+          104
+        </td>
+        <td>
+          2766
+          -
+          2848
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          com.ica.customer.info.CustomerFlatten.getCustomerInfoDataFrame
+        </td>
+        <td style="background: #AEF1AE">
+          com.ica.customer.info.CustomerFlatten.getCustomerInfoDataFrame(CustomerMain.this.sprk, CustomerMain.this.customerInfoPath, CustomerMain.this.customerInfoSchema)
+        </td>
+      </tr><tr>
+        <td>
+          62
+        </td>
+        <td>
+          103
+        </td>
+        <td>
+          2829
+          -
+          2847
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          com.ica.customer.implementation.CustomerMain.customerInfoSchema
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerMain.this.customerInfoSchema
+        </td>
+      </tr><tr>
+        <td>
+          62
+        </td>
+        <td>
+          102
+        </td>
+        <td>
+          2812
+          -
+          2828
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          com.ica.customer.implementation.CustomerMain.customerInfoPath
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerMain.this.customerInfoPath
+        </td>
+      </tr><tr>
+        <td>
+          63
+        </td>
+        <td>
+          105
+        </td>
+        <td>
+          2854
+          -
+          2885
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.Dataset.show
+        </td>
+        <td style="background: #AEF1AE">
+          getCustomerInfoDataFrame.show()
+        </td>
+      </tr><tr>
+        <td>
+          64
+        </td>
+        <td>
+          106
+        </td>
+        <td>
+          2910
+          -
+          2968
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          com.ica.customer.info.CustomerFlatten.callCustomerInfo
+        </td>
+        <td style="background: #AEF1AE">
+          com.ica.customer.info.CustomerFlatten.callCustomerInfo(getCustomerInfoDataFrame)
+        </td>
+      </tr><tr>
+        <td>
+          65
+        </td>
+        <td>
+          107
+        </td>
+        <td>
+          2974
+          -
+          2993
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.Dataset.show
+        </td>
+        <td style="background: #AEF1AE">
+          customerCall.show()
+        </td>
+      </tr><tr>
+        <td>
+          67
+        </td>
+        <td>
+          110
+        </td>
+        <td>
+          3069
+          -
+          3154
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          com.ica.customer.info.CustomerOfferFlatten.getCustomerOfferDataFrame
+        </td>
+        <td style="background: #AEF1AE">
+          com.ica.customer.info.CustomerOfferFlatten.getCustomerOfferDataFrame(CustomerMain.this.customerOfferInfo, CustomerMain.this.customerOfferSchema)
+        </td>
+      </tr><tr>
+        <td>
+          67
+        </td>
+        <td>
+          109
+        </td>
+        <td>
+          3134
+          -
+          3153
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          com.ica.customer.implementation.CustomerMain.customerOfferSchema
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerMain.this.customerOfferSchema
+        </td>
+      </tr><tr>
+        <td>
+          67
+        </td>
+        <td>
+          108
+        </td>
+        <td>
+          3116
+          -
+          3133
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          com.ica.customer.implementation.CustomerMain.customerOfferInfo
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerMain.this.customerOfferInfo
+        </td>
+      </tr><tr>
+        <td>
+          68
+        </td>
+        <td>
+          112
+        </td>
+        <td>
+          3175
+          -
+          3223
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          com.ica.customer.info.CustomerOfferFlatten.getWeeksOfYear
+        </td>
+        <td style="background: #AEF1AE">
+          com.ica.customer.info.CustomerOfferFlatten.getWeeksOfYear(CustomerMain.this.weekOfYears)
+        </td>
+      </tr><tr>
+        <td>
+          68
+        </td>
+        <td>
+          111
+        </td>
+        <td>
+          3211
+          -
+          3222
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          com.ica.customer.implementation.CustomerMain.weekOfYears
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerMain.this.weekOfYears
+        </td>
+      </tr><tr>
+        <td>
+          69
+        </td>
+        <td>
+          113
+        </td>
+        <td>
+          3250
+          -
+          3319
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          com.ica.customer.info.CustomerOfferFlatten.customerOfferCall
+        </td>
+        <td style="background: #AEF1AE">
+          com.ica.customer.info.CustomerOfferFlatten.customerOfferCall(getCustomerOfferInfo, getWeeks)
+        </td>
+      </tr><tr>
+        <td>
+          70
+        </td>
+        <td>
+          114
+        </td>
+        <td>
+          3325
+          -
+          3346
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.Dataset.show
+        </td>
+        <td style="background: #AEF1AE">
+          customerOffers.show()
+        </td>
+      </tr><tr>
+        <td>
+          72
+        </td>
+        <td>
+          116
+        </td>
+        <td>
+          3496
+          -
+          3521
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          com.ica.customer.implementation.CustomerMain.customerTransactionSchema
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerMain.this.customerTransactionSchema
+        </td>
+      </tr><tr>
+        <td>
+          72
+        </td>
+        <td>
+          115
+        </td>
+        <td>
+          3480
+          -
+          3495
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          com.ica.customer.implementation.CustomerMain.transactionData
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerMain.this.transactionData
+        </td>
+      </tr><tr>
+        <td>
+          72
+        </td>
+        <td>
+          117
+        </td>
+        <td>
+          3429
+          -
+          3522
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          com.ica.customer.info.CustomerTransactionFlatten.getTransactionDataFrame
+        </td>
+        <td style="background: #AEF1AE">
+          com.ica.customer.info.CustomerTransactionFlatten.getTransactionDataFrame(CustomerMain.this.transactionData, CustomerMain.this.customerTransactionSchema)
+        </td>
+      </tr><tr>
+        <td>
+          73
+        </td>
+        <td>
+          118
+        </td>
+        <td>
+          3528
+          -
+          3557
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.Dataset.show
+        </td>
+        <td style="background: #AEF1AE">
+          getCustomerTransaction.show()
+        </td>
+      </tr><tr>
+        <td>
+          74
+        </td>
+        <td>
+          119
+        </td>
+        <td>
+          3598
+          -
+          3672
         </td>
         <td>
           Apply
@@ -402,20 +2622,20 @@
         <td>
           com.ica.customer.info.CustomerTransactionFlatten.callCustomerTransaction
         </td>
-        <td style="background: #F0ADAD">
+        <td style="background: #AEF1AE">
           com.ica.customer.info.CustomerTransactionFlatten.callCustomerTransaction(getCustomerTransaction)
         </td>
       </tr><tr>
         <td>
-          42
+          75
         </td>
         <td>
-          16
+          120
         </td>
         <td>
-          2343
+          3678
           -
-          2378
+          3713
         </td>
         <td>
           Apply
@@ -423,20 +2643,20 @@
         <td>
           org.apache.spark.sql.Dataset.show
         </td>
-        <td style="background: #F0ADAD">
+        <td style="background: #AEF1AE">
           transactionDetailsOfCustomer.show()
         </td>
       </tr><tr>
         <td>
-          45
+          78
         </td>
         <td>
-          17
+          121
         </td>
         <td>
-          2465
+          3800
           -
-          2565
+          3900
         </td>
         <td>
           Apply
@@ -444,20 +2664,20 @@
         <td>
           com.ica.customer.utilities.CustomerUtilities.customerWiseweeklyStatus
         </td>
-        <td style="background: #F0ADAD">
+        <td style="background: #AEF1AE">
           com.ica.customer.utilities.CustomerUtilities.customerWiseweeklyStatus(customerCall, customerOffers, transactionDetailsOfCustomer)
         </td>
       </tr><tr>
         <td>
-          46
+          79
         </td>
         <td>
-          18
+          122
         </td>
         <td>
-          2571
+          3906
           -
-          2599
+          3934
         </td>
         <td>
           Apply
@@ -465,20 +2685,20 @@
         <td>
           org.apache.spark.sql.Dataset.show
         </td>
-        <td style="background: #F0ADAD">
+        <td style="background: #AEF1AE">
           customersWeeklyStatus.show()
         </td>
       </tr><tr>
         <td>
-          49
+          82
         </td>
         <td>
-          19
+          123
         </td>
         <td>
-          2676
+          4011
           -
-          2744
+          4079
         </td>
         <td>
           Apply
@@ -486,20 +2706,20 @@
         <td>
           com.ica.customer.utilities.CustomerUtilities.customerOverAllWeeklyStatus
         </td>
-        <td style="background: #F0ADAD">
+        <td style="background: #AEF1AE">
           com.ica.customer.utilities.CustomerUtilities.customerOverAllWeeklyStatus(customersWeeklyStatus)
         </td>
       </tr><tr>
         <td>
-          50
+          83
         </td>
         <td>
-          20
+          124
         </td>
         <td>
-          2750
+          4085
           -
-          2776
+          4111
         </td>
         <td>
           Apply
@@ -507,20 +2727,20 @@
         <td>
           org.apache.spark.sql.Dataset.show
         </td>
-        <td style="background: #F0ADAD">
+        <td style="background: #AEF1AE">
           overAllWeeklyStatus.show()
         </td>
       </tr><tr>
         <td>
-          53
+          86
         </td>
         <td>
-          21
+          125
         </td>
         <td>
-          2863
+          4198
           -
-          2949
+          4284
         </td>
         <td>
           Apply
@@ -528,20 +2748,20 @@
         <td>
           com.ica.customer.utilities.CustomerUtilities.customerTransactionResult
         </td>
-        <td style="background: #F0ADAD">
+        <td style="background: #AEF1AE">
           com.ica.customer.utilities.CustomerUtilities.customerTransactionResult(transactionDetailsOfCustomer, customerCall)
         </td>
       </tr><tr>
         <td>
-          54
+          87
         </td>
         <td>
-          22
+          126
         </td>
         <td>
-          2987
+          4322
           -
-          3050
+          4385
         </td>
         <td>
           Apply
@@ -549,20 +2769,20 @@
         <td>
           com.ica.customer.utilities.CustomerUtilities.transactionOnAgeGroupWise
         </td>
-        <td style="background: #F0ADAD">
+        <td style="background: #AEF1AE">
           com.ica.customer.utilities.CustomerUtilities.transactionOnAgeGroupWise(agewiseTransaction)
         </td>
       </tr><tr>
         <td>
-          55
+          88
         </td>
         <td>
-          23
+          127
         </td>
         <td>
-          3056
+          4391
           -
-          3088
+          4423
         </td>
         <td>
           Apply
@@ -570,7 +2790,7 @@
         <td>
           org.apache.spark.sql.Dataset.show
         </td>
-        <td style="background: #F0ADAD">
+        <td style="background: #AEF1AE">
           transactionOnAgeGroupWise.show()
         </td>
       </tr>

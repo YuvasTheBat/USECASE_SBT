@@ -1,6 +1,6 @@
 [0m[[0m[0minfo[0m] [0m[0mCleaning datadir [C:\Users\yuvas\IdeaProjects\ICA_POC\target\scala-2.11/scoverage-data][0m
 [0m[[0m[0minfo[0m] [0m[0mBeginning coverage instrumentation[0m
-[0m[[0m[0minfo[0m] [0m[0mInstrumentation completed [146 statements][0m
+[0m[[0m[0minfo[0m] [0m[0mInstrumentation completed [250 statements][0m
 [0m[[0m[0minfo[0m] [0m[0mWrote instrumentation file [C:\Users\yuvas\IdeaProjects\ICA_POC\target\scala-2.11\scoverage-data\scoverage.coverage][0m
 [0m[[0m[0minfo[0m] [0m[0mWill write measurement data to [C:\Users\yuvas\IdeaProjects\ICA_POC\target\scala-2.11/scoverage-data][0m
 [0m[[0m[33mwarn[0m] [0m[0mthere were three deprecation warnings; re-run with -deprecation for details[0m

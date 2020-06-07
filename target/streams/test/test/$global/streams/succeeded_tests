@@ -1,6 +1,6 @@
 #Successful Tests
-#Mon Jun 01 22:51:38 IST 2020
-com.ica.customer.info.CustomerInfo=1591032076247
-com.ica.customer.info.CustomerTransactionInfo=1591032071524
-com.ica.customer.info.CustomerOfferInfo=1591032091817
-com.ica.customer.utilities.CustomerUtilitiesTest=1591032098895
+#Mon Jun 08 01:40:32 IST 2020
+com.ica.customer.info.CustomerInfo=1591560632146
+com.ica.customer.info.CustomerTransactionInfo=1591560585789
+com.ica.customer.info.CustomerOfferInfo=1591560612560
+com.ica.customer.utilities.CustomerUtilitiesTest=1591560627024

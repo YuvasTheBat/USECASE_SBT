@@ -43,76 +43,75 @@
 </span>19 <span style=''>
 </span>20 <span style=''>import scala.util.{Failure, Success, Try}
 </span>21 <span style=''>import java.io.FileNotFoundException
-</span>22 <span style=''>import org.apache.spark.sql.functions.col
-</span>23 <span style=''>import org.apache.spark.sql.functions.date_format
-</span>24 <span style=''>import com.ica.customer.session.SessionInit
-</span>25 <span style=''>import org.apache.spark.sql.types.IntegerType
-</span>26 <span style=''>
+</span>22 <span style=''>
+</span>23 <span style=''>import org.apache.spark.sql.functions.col
+</span>24 <span style=''>import org.apache.spark.sql.functions.date_format
+</span>25 <span style=''>import com.ica.customer.session.SessionInit
+</span>26 <span style=''>import org.apache.spark.sql.types.{IntegerType, StructType}
 </span>27 <span style=''>
-</span>28 <span style=''>object CustomerOfferFlatten extends SessionInit {
-</span>29 <span style=''>
-</span>30 <span style=''>  private val HEADER_FOR_CUSTOMER_OFFER_DATA = </span><span style='background: #AEF1AE'>true</span><span style=''>
-</span>31 <span style=''>  private val HEADER_FOR_NUMBER_TABLE = </span><span style='background: #AEF1AE'>true</span><span style=''>
-</span>32 <span style=''>
+</span>28 <span style=''>
+</span>29 <span style=''>object CustomerOfferFlatten extends SessionInit {
+</span>30 <span style=''>
+</span>31 <span style=''>  private val HEADER_FOR_CUSTOMER_OFFER_DATA = </span><span style='background: #AEF1AE'>true</span><span style=''>
+</span>32 <span style=''>  private val HEADER_FOR_NUMBER_TABLE = </span><span style='background: #AEF1AE'>true</span><span style=''>
 </span>33 <span style=''>  /**
 </span>34 <span style=''>   * Method to convert raw data of customer's offer into dataframe and flatten with more ease
 </span>35 <span style=''>   * @param pathC
 </span>36 <span style=''>   * @return customerOfferFlat
 </span>37 <span style=''>   */
-</span>38 <span style=''>  def getCustomerOfferDataFrame(pathC:String) : DataFrame = {
+</span>38 <span style=''>  def getCustomerOfferDataFrame(pathC:String,schema:StructType) : DataFrame = {
 </span>39 <span style=''>    val customerOffer =  </span><span style='background: #AEF1AE'>Try ({
-</span>40 <span style=''></span><span style='background: #AEF1AE'>      val customerOfferFlat = sprk.read.format(&quot;CSV&quot;)
-</span>41 <span style=''></span><span style='background: #AEF1AE'>        .option(&quot;header&quot;, HEADER_FOR_CUSTOMER_OFFER_DATA).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;)
-</span>42 <span style=''></span><span style='background: #AEF1AE'>        .csv(pathC)
-</span>43 <span style=''></span><span style='background: #AEF1AE'>      customerOfferFlat
-</span>44 <span style=''></span><span style='background: #AEF1AE'>    })</span><span style=''>
-</span>45 <span style=''>    customerOffer match {
-</span>46 <span style=''>      case Success(v) =&gt; v
-</span>47 <span style=''>      case Failure(issue) =&gt;
-</span>48 <span style=''>        </span><span style='background: #AEF1AE'>issue.getMessage</span><span style=''>
-</span>49 <span style=''>        </span><span style='background: #AEF1AE'>throw new FileNotFoundException(&quot;FileNotFound For Customer Offers&quot;)</span><span style=''>
-</span>50 <span style=''>    }
-</span>51 <span style=''>  }
-</span>52 <span style=''>
-</span>53 <span style=''>  /**
-</span>54 <span style=''>   * Method to bring numbmer of weeks from years to calculate weekly transactions.
-</span>55 <span style=''>   * Adding new column called week_number.
-</span>56 <span style=''>   * @param pathC
-</span>57 <span style=''>   * @return numberTab
-</span>58 <span style=''>   */
-</span>59 <span style=''>  def getWeeksOfYear(pathC:String) : DataFrame = {
-</span>60 <span style=''>    val numberTab = </span><span style='background: #AEF1AE'>Try ({
-</span>61 <span style=''></span><span style='background: #AEF1AE'>      val numberTabForYear = sprk.read.format(&quot;CSV&quot;)
-</span>62 <span style=''></span><span style='background: #AEF1AE'>        .option(&quot;header&quot;, HEADER_FOR_NUMBER_TABLE)
-</span>63 <span style=''></span><span style='background: #AEF1AE'>        .csv(pathC).select(col(&quot;AGE&quot;).alias(&quot;week_number&quot;).cast(IntegerType))
-</span>64 <span style=''></span><span style='background: #AEF1AE'>      numberTabForYear
-</span>65 <span style=''></span><span style='background: #AEF1AE'>    })</span><span style=''>
-</span>66 <span style=''>    numberTab match {
-</span>67 <span style=''>      case Success(v) =&gt; v
-</span>68 <span style=''>      case Failure(issue) =&gt;
-</span>69 <span style=''>        </span><span style='background: #AEF1AE'>issue.printStackTrace()</span><span style=''>
-</span>70 <span style=''>        </span><span style='background: #AEF1AE'>throw new FileNotFoundException(&quot;FileNotFound For Numbers Table&quot;)</span><span style=''>
-</span>71 <span style=''>    }
-</span>72 <span style=''>  }
-</span>73 <span style=''>
-</span>74 <span style=''>  /**
-</span>75 <span style=''>   * Method to flatten customer's offer with weekly informations.
-</span>76 <span style=''>   * Added new columns begin_week_number.begin_date,end_week_number,end_date
-</span>77 <span style=''>   * @param offerFlat
-</span>78 <span style=''>   * @param numberTab
-</span>79 <span style=''>   * @return customerOfferCall
-</span>80 <span style=''>   */
-</span>81 <span style=''>  def customerOfferCall(offerFlat:DataFrame,numberTab:DataFrame) : DataFrame = {
-</span>82 <span style=''>    val offer = </span><span style='background: #AEF1AE'>offerFlat.withColumn(&quot;begin_week_number&quot;, date_format(col(&quot;begin_date&quot;), &quot;w&quot;).cast(IntegerType))
-</span>83 <span style=''></span><span style='background: #AEF1AE'>      .withColumn(&quot;end_week_number&quot;, date_format(col(&quot;end_date&quot;), &quot;w&quot;).cast(IntegerType))</span><span style=''>
-</span>84 <span style=''>
-</span>85 <span style=''>    val customerOfferCall = </span><span style='background: #AEF1AE'>offer.join(numberTab, numberTab(&quot;week_number&quot;)
-</span>86 <span style=''></span><span style='background: #AEF1AE'>      .between(offer(&quot;begin_week_number&quot;), offer(&quot;end_week_number&quot;)))
-</span>87 <span style=''></span><span style='background: #AEF1AE'>      .select(&quot;week_number&quot;, &quot;offer_id&quot;, &quot;offer_name&quot;, &quot;cust_id&quot;, &quot;begin_date&quot;, &quot;end_date&quot;, &quot;begin_week_number&quot;, &quot;end_week_number&quot;)</span><span style=''>
-</span>88 <span style=''>    customerOfferCall
-</span>89 <span style=''>  }
-</span>90 <span style=''>
-</span>91 <span style=''>}
+</span>40 <span style=''></span><span style='background: #AEF1AE'>      val customerOfferFlat = sprk.read.format(&quot;CSV&quot;).schema(schema).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;)
+</span>41 <span style=''></span><span style='background: #AEF1AE'>        .csv(pathC)
+</span>42 <span style=''></span><span style='background: #AEF1AE'>      customerOfferFlat
+</span>43 <span style=''></span><span style='background: #AEF1AE'>    })</span><span style=''>
+</span>44 <span style=''>    customerOffer match {
+</span>45 <span style=''>      case Success(v) =&gt; v
+</span>46 <span style=''>      case Failure(issue) =&gt;
+</span>47 <span style=''>        </span><span style='background: #AEF1AE'>issue.getMessage</span><span style=''>
+</span>48 <span style=''>        </span><span style='background: #AEF1AE'>throw new FileNotFoundException(&quot;FileNotFound For Customer Offers&quot;)</span><span style=''>
+</span>49 <span style=''>    }
+</span>50 <span style=''>  }
+</span>51 <span style=''>
+</span>52 <span style=''>  /**
+</span>53 <span style=''>   * Method to bring numbmer of weeks from years to calculate weekly transactions.
+</span>54 <span style=''>   * Adding new column called week_number.
+</span>55 <span style=''>   * @param pathC
+</span>56 <span style=''>   * @return numberTab
+</span>57 <span style=''>   */
+</span>58 <span style=''>  def getWeeksOfYear(pathC:String) : DataFrame = {
+</span>59 <span style=''>    val numberTab = </span><span style='background: #AEF1AE'>Try ({
+</span>60 <span style=''></span><span style='background: #AEF1AE'>      val numberTabForYear = sprk.read.format(&quot;CSV&quot;)
+</span>61 <span style=''></span><span style='background: #AEF1AE'>        .option(&quot;header&quot;, HEADER_FOR_NUMBER_TABLE)
+</span>62 <span style=''></span><span style='background: #AEF1AE'>        .csv(pathC).select(col(&quot;number&quot;).alias(&quot;week_number&quot;).cast(IntegerType))
+</span>63 <span style=''></span><span style='background: #AEF1AE'>      numberTabForYear
+</span>64 <span style=''></span><span style='background: #AEF1AE'>    })</span><span style=''>
+</span>65 <span style=''>    numberTab match {
+</span>66 <span style=''>      case Success(v) =&gt; v
+</span>67 <span style=''>      case Failure(issue) =&gt;
+</span>68 <span style=''>        </span><span style='background: #AEF1AE'>issue.printStackTrace()</span><span style=''>
+</span>69 <span style=''>        </span><span style='background: #AEF1AE'>throw new FileNotFoundException(&quot;FileNotFound For Numbers Table&quot;)</span><span style=''>
+</span>70 <span style=''>    }
+</span>71 <span style=''>  }
+</span>72 <span style=''>
+</span>73 <span style=''>  /**
+</span>74 <span style=''>   * Method to flatten customer's offer with weekly informations.
+</span>75 <span style=''>   * Added new columns begin_week_number.begin_date,end_week_number,end_date
+</span>76 <span style=''>   * @param offerFlat
+</span>77 <span style=''>   * @param numberTab
+</span>78 <span style=''>   * @return customerOfferCall
+</span>79 <span style=''>   */
+</span>80 <span style=''>  def customerOfferCall(offerFlat:DataFrame,numberTab:DataFrame) : DataFrame = {
+</span>81 <span style=''>    val offer = </span><span style='background: #AEF1AE'>offerFlat.withColumn(&quot;begin_week_number&quot;, date_format(col(&quot;begin_date&quot;), &quot;w&quot;).cast(IntegerType))
+</span>82 <span style=''></span><span style='background: #AEF1AE'>      .withColumn(&quot;end_week_number&quot;, date_format(col(&quot;end_date&quot;), &quot;w&quot;).cast(IntegerType))</span><span style=''>
+</span>83 <span style=''>
+</span>84 <span style=''>    val customerOfferCall = </span><span style='background: #AEF1AE'>offer.join(numberTab, numberTab(&quot;week_number&quot;)
+</span>85 <span style=''></span><span style='background: #AEF1AE'>      .between(offer(&quot;begin_week_number&quot;), offer(&quot;end_week_number&quot;)))
+</span>86 <span style=''></span><span style='background: #AEF1AE'>      .select(&quot;week_number&quot;, &quot;offer_id&quot;, &quot;offer_name&quot;, &quot;cust_id&quot;, &quot;begin_date&quot;, &quot;end_date&quot;, &quot;begin_week_number&quot;, &quot;end_week_number&quot;)</span><span style=''>
+</span>87 <span style=''>    customerOfferCall
+</span>88 <span style=''>  }
+</span>89 <span style=''>
+</span>90 <span style=''>}
 </span></pre>
           </div>
           <div class="tab-pane" id="statementlist">
@@ -126,15 +125,15 @@
         <th>Code</th>
       </tr><tr>
         <td>
-          30
+          31
         </td>
         <td>
-          55
+          159
         </td>
         <td>
-          1205
+          1221
           -
-          1209
+          1225
         </td>
         <td>
           Literal
@@ -147,15 +146,15 @@
         </td>
       </tr><tr>
         <td>
-          31
+          32
         </td>
         <td>
-          56
+          160
         </td>
         <td>
-          1251
+          1267
           -
-          1255
+          1271
         </td>
         <td>
           Literal
@@ -171,12 +170,12 @@
           39
         </td>
         <td>
-          58
+          162
         </td>
         <td>
-          1507
+          1539
           -
-          1713
+          1701
         </td>
         <td>
           Apply
@@ -186,21 +185,21 @@
         </td>
         <td style="background: #AEF1AE">
           scala.util.Try.apply[org.apache.spark.sql.DataFrame]({
-  val customerOfferFlat: org.apache.spark.sql.DataFrame = CustomerOfferFlatten.this.sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, CustomerOfferFlatten.this.HEADER_FOR_CUSTOMER_OFFER_DATA).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC);
+  val customerOfferFlat: org.apache.spark.sql.DataFrame = CustomerOfferFlatten.this.sprk.read.format(&quot;CSV&quot;).schema(schema).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC);
   customerOfferFlat
 })
         </td>
       </tr><tr>
         <td>
-          42
+          41
         </td>
         <td>
-          57
+          161
         </td>
         <td>
-          1545
+          1577
           -
-          1680
+          1668
         </td>
         <td>
           Apply
@@ -209,19 +208,19 @@
           org.apache.spark.sql.DataFrameReader.csv
         </td>
         <td style="background: #AEF1AE">
-          CustomerOfferFlatten.this.sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, CustomerOfferFlatten.this.HEADER_FOR_CUSTOMER_OFFER_DATA).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC)
+          CustomerOfferFlatten.this.sprk.read.format(&quot;CSV&quot;).schema(schema).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC)
         </td>
       </tr><tr>
         <td>
-          48
+          47
         </td>
         <td>
-          59
+          163
         </td>
         <td>
-          1808
+          1796
           -
-          1824
+          1812
         </td>
         <td>
           Apply
@@ -234,15 +233,15 @@
         </td>
       </tr><tr>
         <td>
-          49
+          48
         </td>
         <td>
-          60
+          164
         </td>
         <td>
-          1834
+          1822
           -
-          1901
+          1889
         </td>
         <td>
           Throw
@@ -255,15 +254,15 @@
         </td>
       </tr><tr>
         <td>
-          60
+          59
         </td>
         <td>
-          69
+          173
         </td>
         <td>
-          2174
+          2162
           -
-          2397
+          2388
         </td>
         <td>
           Apply
@@ -273,21 +272,21 @@
         </td>
         <td style="background: #AEF1AE">
           scala.util.Try.apply[org.apache.spark.sql.DataFrame]({
-  val numberTabForYear: org.apache.spark.sql.DataFrame = CustomerOfferFlatten.this.sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE).csv(pathC).select(org.apache.spark.sql.functions.col(&quot;AGE&quot;).alias(&quot;week_number&quot;).cast(org.apache.spark.sql.types.IntegerType));
+  val numberTabForYear: org.apache.spark.sql.DataFrame = CustomerOfferFlatten.this.sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE).csv(pathC).select(org.apache.spark.sql.functions.col(&quot;number&quot;).alias(&quot;week_number&quot;).cast(org.apache.spark.sql.types.IntegerType));
   numberTabForYear
 })
         </td>
       </tr><tr>
         <td>
-          61
+          60
         </td>
         <td>
-          61
+          165
         </td>
         <td>
-          2228
+          2216
           -
-          2233
+          2221
         </td>
         <td>
           Literal
@@ -300,15 +299,36 @@
         </td>
       </tr><tr>
         <td>
-          62
+          61
         </td>
         <td>
-          62
+          167
         </td>
         <td>
-          2252
+          2250
           -
-          2260
+          2273
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          com.ica.customer.info.CustomerOfferFlatten.HEADER_FOR_NUMBER_TABLE
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE
+        </td>
+      </tr><tr>
+        <td>
+          61
+        </td>
+        <td>
+          166
+        </td>
+        <td>
+          2240
+          -
+          2248
         </td>
         <td>
           Literal
@@ -324,54 +344,12 @@
           62
         </td>
         <td>
-          63
+          169
         </td>
         <td>
-          2262
+          2323
           -
-          2285
-        </td>
-        <td>
-          Select
-        </td>
-        <td>
-          com.ica.customer.info.CustomerOfferFlatten.HEADER_FOR_NUMBER_TABLE
-        </td>
-        <td style="background: #AEF1AE">
-          CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE
-        </td>
-      </tr><tr>
-        <td>
-          63
-        </td>
-        <td>
-          68
-        </td>
-        <td>
-          2211
-          -
-          2365
-        </td>
-        <td>
-          Apply
-        </td>
-        <td>
-          org.apache.spark.sql.Dataset.select
-        </td>
-        <td style="background: #AEF1AE">
-          CustomerOfferFlatten.this.sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE).csv(pathC).select(org.apache.spark.sql.functions.col(&quot;AGE&quot;).alias(&quot;week_number&quot;).cast(org.apache.spark.sql.types.IntegerType))
-        </td>
-      </tr><tr>
-        <td>
-          63
-        </td>
-        <td>
-          65
-        </td>
-        <td>
-          2332
-          -
-          2345
+          2336
         </td>
         <td>
           Literal
@@ -384,15 +362,36 @@
         </td>
       </tr><tr>
         <td>
-          63
+          62
         </td>
         <td>
-          64
+          172
         </td>
         <td>
-          2319
+          2199
           -
-          2324
+          2356
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.Dataset.select
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerOfferFlatten.this.sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE).csv(pathC).select(org.apache.spark.sql.functions.col(&quot;number&quot;).alias(&quot;week_number&quot;).cast(org.apache.spark.sql.types.IntegerType))
+        </td>
+      </tr><tr>
+        <td>
+          62
+        </td>
+        <td>
+          168
+        </td>
+        <td>
+          2307
+          -
+          2315
         </td>
         <td>
           Literal
@@ -401,19 +400,19 @@
           &lt;nosymbol&gt;
         </td>
         <td style="background: #AEF1AE">
-          &quot;AGE&quot;
+          &quot;number&quot;
         </td>
       </tr><tr>
         <td>
-          63
+          62
         </td>
         <td>
-          67
+          171
         </td>
         <td>
-          2315
+          2303
           -
-          2364
+          2355
         </td>
         <td>
           Apply
@@ -422,19 +421,19 @@
           org.apache.spark.sql.Column.cast
         </td>
         <td style="background: #AEF1AE">
-          org.apache.spark.sql.functions.col(&quot;AGE&quot;).alias(&quot;week_number&quot;).cast(org.apache.spark.sql.types.IntegerType)
+          org.apache.spark.sql.functions.col(&quot;number&quot;).alias(&quot;week_number&quot;).cast(org.apache.spark.sql.types.IntegerType)
         </td>
       </tr><tr>
         <td>
-          63
+          62
         </td>
         <td>
-          66
+          170
         </td>
         <td>
-          2352
+          2343
           -
-          2363
+          2354
         </td>
         <td>
           Select
@@ -447,15 +446,15 @@
         </td>
       </tr><tr>
         <td>
-          69
+          68
         </td>
         <td>
-          70
+          174
         </td>
         <td>
-          2488
+          2479
           -
-          2511
+          2502
         </td>
         <td>
           Apply
@@ -468,15 +467,15 @@
         </td>
       </tr><tr>
         <td>
-          70
+          69
         </td>
         <td>
-          71
+          175
         </td>
         <td>
-          2521
+          2512
           -
-          2586
+          2577
         </td>
         <td>
           Throw
@@ -489,78 +488,15 @@
         </td>
       </tr><tr>
         <td>
-          82
+          81
         </td>
         <td>
-          74
+          176
         </td>
         <td>
-          3010
+          2949
           -
-          3013
-        </td>
-        <td>
-          Literal
-        </td>
-        <td>
-          &lt;nosymbol&gt;
-        </td>
-        <td style="background: #AEF1AE">
-          &quot;w&quot;
-        </td>
-      </tr><tr>
-        <td>
-          82
-        </td>
-        <td>
-          73
-        </td>
-        <td>
-          2991
-          -
-          3008
-        </td>
-        <td>
-          Apply
-        </td>
-        <td>
-          org.apache.spark.sql.functions.col
-        </td>
-        <td style="background: #AEF1AE">
-          org.apache.spark.sql.functions.col(&quot;begin_date&quot;)
-        </td>
-      </tr><tr>
-        <td>
-          82
-        </td>
-        <td>
-          76
-        </td>
-        <td>
-          2979
-          -
-          3032
-        </td>
-        <td>
-          Apply
-        </td>
-        <td>
-          org.apache.spark.sql.Column.cast
-        </td>
-        <td style="background: #AEF1AE">
-          org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col(&quot;begin_date&quot;), &quot;w&quot;).cast(org.apache.spark.sql.types.IntegerType)
-        </td>
-      </tr><tr>
-        <td>
-          82
-        </td>
-        <td>
-          72
-        </td>
-        <td>
-          2958
-          -
-          2977
+          2968
         </td>
         <td>
           Literal
@@ -573,99 +509,15 @@
         </td>
       </tr><tr>
         <td>
-          82
+          81
         </td>
         <td>
-          75
+          178
         </td>
         <td>
-          3020
+          3001
           -
-          3031
-        </td>
-        <td>
-          Select
-        </td>
-        <td>
-          org.apache.spark.sql.types.IntegerType
-        </td>
-        <td style="background: #AEF1AE">
-          org.apache.spark.sql.types.IntegerType
-        </td>
-      </tr><tr>
-        <td>
-          83
-        </td>
-        <td>
-          77
-        </td>
-        <td>
-          3053
-          -
-          3070
-        </td>
-        <td>
-          Literal
-        </td>
-        <td>
-          &lt;nosymbol&gt;
-        </td>
-        <td style="background: #AEF1AE">
-          &quot;end_week_number&quot;
-        </td>
-      </tr><tr>
-        <td>
-          83
-        </td>
-        <td>
-          80
-        </td>
-        <td>
-          3111
-          -
-          3122
-        </td>
-        <td>
-          Select
-        </td>
-        <td>
-          org.apache.spark.sql.types.IntegerType
-        </td>
-        <td style="background: #AEF1AE">
-          org.apache.spark.sql.types.IntegerType
-        </td>
-      </tr><tr>
-        <td>
-          83
-        </td>
-        <td>
-          82
-        </td>
-        <td>
-          2937
-          -
-          3124
-        </td>
-        <td>
-          Apply
-        </td>
-        <td>
-          org.apache.spark.sql.Dataset.withColumn
-        </td>
-        <td style="background: #AEF1AE">
-          offerFlat.withColumn(&quot;begin_week_number&quot;, org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col(&quot;begin_date&quot;), &quot;w&quot;).cast(org.apache.spark.sql.types.IntegerType)).withColumn(&quot;end_week_number&quot;, org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col(&quot;end_date&quot;), &quot;w&quot;).cast(org.apache.spark.sql.types.IntegerType))
-        </td>
-      </tr><tr>
-        <td>
-          83
-        </td>
-        <td>
-          79
-        </td>
-        <td>
-          3101
-          -
-          3104
+          3004
         </td>
         <td>
           Literal
@@ -678,15 +530,78 @@
         </td>
       </tr><tr>
         <td>
-          83
+          81
         </td>
         <td>
-          78
+          180
         </td>
         <td>
-          3084
+          2970
           -
-          3099
+          3023
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.Column.cast
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col(&quot;begin_date&quot;), &quot;w&quot;).cast(org.apache.spark.sql.types.IntegerType)
+        </td>
+      </tr><tr>
+        <td>
+          81
+        </td>
+        <td>
+          177
+        </td>
+        <td>
+          2982
+          -
+          2999
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.functions.col
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.functions.col(&quot;begin_date&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          81
+        </td>
+        <td>
+          179
+        </td>
+        <td>
+          3011
+          -
+          3022
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.IntegerType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.IntegerType
+        </td>
+      </tr><tr>
+        <td>
+          82
+        </td>
+        <td>
+          182
+        </td>
+        <td>
+          3075
+          -
+          3090
         </td>
         <td>
           Apply
@@ -699,15 +614,15 @@
         </td>
       </tr><tr>
         <td>
-          83
+          82
         </td>
         <td>
-          81
+          185
         </td>
         <td>
-          3072
+          3063
           -
-          3123
+          3114
         </td>
         <td>
           Apply
@@ -720,15 +635,99 @@
         </td>
       </tr><tr>
         <td>
-          87
+          82
         </td>
         <td>
-          83
+          184
         </td>
         <td>
-          3156
+          3102
           -
-          3406
+          3113
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          org.apache.spark.sql.types.IntegerType
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.types.IntegerType
+        </td>
+      </tr><tr>
+        <td>
+          82
+        </td>
+        <td>
+          181
+        </td>
+        <td>
+          3044
+          -
+          3061
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;end_week_number&quot;
+        </td>
+      </tr><tr>
+        <td>
+          82
+        </td>
+        <td>
+          183
+        </td>
+        <td>
+          3092
+          -
+          3095
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;w&quot;
+        </td>
+      </tr><tr>
+        <td>
+          82
+        </td>
+        <td>
+          186
+        </td>
+        <td>
+          2928
+          -
+          3115
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.Dataset.withColumn
+        </td>
+        <td style="background: #AEF1AE">
+          offerFlat.withColumn(&quot;begin_week_number&quot;, org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col(&quot;begin_date&quot;), &quot;w&quot;).cast(org.apache.spark.sql.types.IntegerType)).withColumn(&quot;end_week_number&quot;, org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col(&quot;end_date&quot;), &quot;w&quot;).cast(org.apache.spark.sql.types.IntegerType))
+        </td>
+      </tr><tr>
+        <td>
+          86
+        </td>
+        <td>
+          187
+        </td>
+        <td>
+          3147
+          -
+          3397
         </td>
         <td>
           Apply

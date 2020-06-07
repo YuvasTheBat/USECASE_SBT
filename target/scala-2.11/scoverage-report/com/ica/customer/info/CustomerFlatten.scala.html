@@ -42,75 +42,79 @@
 </span>18 <span style=''>
 </span>19 <span style=''>import org.apache.spark.sql.SparkSession
 </span>20 <span style=''>import org.apache.spark.sql.DataFrame
-</span>21 <span style=''>import scala.util.{Try,Success,Failure}
-</span>22 <span style=''>import java.io.FileNotFoundException
-</span>23 <span style=''>import com.ica.customer.session.SessionInit
-</span>24 <span style=''>import org.apache.spark.sql.functions._
-</span>25 <span style=''>import java.sql.Date
-</span>26 <span style=''>import java.text.SimpleDateFormat
-</span>27 <span style=''>import java.text.ParseException
-</span>28 <span style=''>//import java.io.IOException
-</span>29 <span style=''>
-</span>30 <span style=''>object CustomerFlatten extends SessionInit {
-</span>31 <span style=''>
-</span>32 <span style=''>  private val MIN_20_AGE_GROUP = </span><span style='background: #AEF1AE'>15</span><span style=''>
-</span>33 <span style=''>  private val MAX_20_AGE_GROUP = </span><span style='background: #AEF1AE'>20</span><span style=''>
-</span>34 <span style=''>  private val MIN_25_AGE_GROUP = </span><span style='background: #AEF1AE'>21</span><span style=''>
-</span>35 <span style=''>  private val MAX_25_AGE_GROUP = </span><span style='background: #AEF1AE'>25</span><span style=''>
-</span>36 <span style=''>  private val MAX_30_AGE_GROUP = </span><span style='background: #AEF1AE'>31</span><span style=''>
-</span>37 <span style=''>  private val HEADER_FOR_CUSTOMER_DATA = </span><span style='background: #AEF1AE'>true</span><span style=''>
-</span>38 <span style=''>
-</span>39 <span style=''>  /**
-</span>40 <span style=''>   * Method to convert customer raw data into dataframe
-</span>41 <span style=''>   * @param sprk
-</span>42 <span style=''>   * @param pathC
-</span>43 <span style=''>   * @return customerInfo
-</span>44 <span style=''>   */
-</span>45 <span style=''>  def getCustomerInfoDataFrame(sprk:SparkSession,pathC:String) : DataFrame = {
-</span>46 <span style=''>
-</span>47 <span style=''>    val customerInfo = </span><span style='background: #AEF1AE'>Try({
-</span>48 <span style=''></span><span style='background: #AEF1AE'>      val customerFlat = sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;,HEADER_FOR_CUSTOMER_DATA).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;)
-</span>49 <span style=''></span><span style='background: #AEF1AE'>        .csv(pathC)
-</span>50 <span style=''></span><span style='background: #AEF1AE'>      customerFlat
-</span>51 <span style=''></span><span style='background: #AEF1AE'>    })</span><span style=''>
-</span>52 <span style=''>    customerInfo match {
-</span>53 <span style=''>      case Success(v) =&gt; v
-</span>54 <span style=''>      case Failure(issue) =&gt;
-</span>55 <span style=''>        </span><span style='background: #AEF1AE'>throw new FileNotFoundException(&quot;FileNotFound for customer's info&quot;)</span><span style=''>
-</span>56 <span style=''>    }
-</span>57 <span style=''>  }
-</span>58 <span style=''>
-</span>59 <span style=''>  private val timesec = </span><span style='background: #AEF1AE'>System.currentTimeMillis()</span><span style=''>
-</span>60 <span style=''>  val currentDate = </span><span style='background: #AEF1AE'>new Date(timesec)</span><span style=''>
-</span>61 <span style=''>  val dateFormat = </span><span style='background: #AEF1AE'>new SimpleDateFormat(&quot;yyyy-MM-dd&quot;)</span><span style=''>
-</span>62 <span style=''>  </span><span style='background: #AEF1AE'>dateFormat.setLenient(false)</span><span style=''>
-</span>63 <span style=''>    val getAge = </span><span style='background: #AEF1AE'>udf((dob:String) =&gt; {
-</span>64 <span style=''></span><span style='background: #AEF1AE'>    Try {
-</span>65 <span style=''></span><span style='background: #AEF1AE'>      val dateUtil = dateFormat.parse(dob)
-</span>66 <span style=''></span><span style='background: #AEF1AE'>      val dobDate = new Date(dateUtil.getTime)
-</span>67 <span style=''></span><span style='background: #AEF1AE'>      currentDate.getYear - dobDate.getYear
-</span>68 <span style=''></span><span style='background: #AEF1AE'>    } match {
-</span>69 <span style=''></span><span style='background: #AEF1AE'>      case Success(v) =&gt; v.toInt
-</span>70 <span style=''></span><span style='background: #AEF1AE'>      case Failure(issue) =&gt;
-</span>71 <span style=''></span><span style='background: #AEF1AE'>        throw new ParseException(dob, currentDate.getYear)
-</span>72 <span style=''></span><span style='background: #AEF1AE'>        </span><span style='background: #F0ADAD'>0</span><span style='background: #AEF1AE'>
-</span>73 <span style=''></span><span style='background: #AEF1AE'>    }
-</span>74 <span style=''></span><span style='background: #AEF1AE'>  })</span><span style=''>
-</span>75 <span style=''>
-</span>76 <span style=''>  /**
-</span>77 <span style=''>   * Method to flatten customer info data and add AGE &amp; AGE_GROUP columns.
-</span>78 <span style=''>   * @param customerFlat
-</span>79 <span style=''>   * @return resultCustomer
-</span>80 <span style=''>   */
-</span>81 <span style=''>  def callCustomerInfo(customerFlat:DataFrame) : DataFrame = {
-</span>82 <span style=''>    val custInfo = </span><span style='background: #AEF1AE'>customerFlat.withColumn(&quot;age&quot;, getAge(col(&quot;cust_dob&quot;)))</span><span style=''>
-</span>83 <span style=''>    val resultCustomer = </span><span style='background: #AEF1AE'>custInfo.withColumn(&quot;age_group&quot;, when(col(&quot;age&quot;).&gt;=(MIN_20_AGE_GROUP) &amp;&amp; col(&quot;age&quot;).&lt;=(MAX_20_AGE_GROUP), &quot;20_age_group&quot;)
-</span>84 <span style=''></span><span style='background: #AEF1AE'>      .when(col(&quot;age&quot;).&gt;(MIN_25_AGE_GROUP) &amp;&amp; col(&quot;age&quot;).&lt;=(MAX_25_AGE_GROUP), &quot;25_age_group&quot;)
-</span>85 <span style=''></span><span style='background: #AEF1AE'>      .when(col(&quot;age&quot;).&gt;(MAX_25_AGE_GROUP) &amp;&amp; col(&quot;age&quot;).&lt;=(MAX_30_AGE_GROUP), &quot;30_age_group&quot;)
-</span>86 <span style=''></span><span style='background: #AEF1AE'>      .otherwise(&quot;unknown&quot;))</span><span style=''>
-</span>87 <span style=''>    resultCustomer
-</span>88 <span style=''>  }
-</span>89 <span style=''>}
+</span>21 <span style=''>
+</span>22 <span style=''>import scala.util.{Failure, Success, Try}
+</span>23 <span style=''>import java.io.FileNotFoundException
+</span>24 <span style=''>
+</span>25 <span style=''>import com.ica.customer.session.SessionInit
+</span>26 <span style=''>import org.apache.spark.sql.functions._
+</span>27 <span style=''>import java.sql.Date
+</span>28 <span style=''>import java.text.SimpleDateFormat
+</span>29 <span style=''>import java.text.ParseException
+</span>30 <span style=''>
+</span>31 <span style=''>import org.apache.spark.sql.types.{StringType, StructField, StructType}
+</span>32 <span style=''>//import java.io.IOException
+</span>33 <span style=''>
+</span>34 <span style=''>object CustomerFlatten extends SessionInit {
+</span>35 <span style=''>
+</span>36 <span style=''>  private val MIN_20_AGE_GROUP = </span><span style='background: #AEF1AE'>15</span><span style=''>
+</span>37 <span style=''>  private val MAX_20_AGE_GROUP = </span><span style='background: #AEF1AE'>20</span><span style=''>
+</span>38 <span style=''>  private val MIN_25_AGE_GROUP = </span><span style='background: #AEF1AE'>21</span><span style=''>
+</span>39 <span style=''>  private val MAX_25_AGE_GROUP = </span><span style='background: #AEF1AE'>25</span><span style=''>
+</span>40 <span style=''>  private val MAX_30_AGE_GROUP = </span><span style='background: #AEF1AE'>31</span><span style=''>
+</span>41 <span style=''>  private val HEADER_FOR_CUSTOMER_DATA = </span><span style='background: #AEF1AE'>true</span><span style=''>
+</span>42 <span style=''>
+</span>43 <span style=''>  /**
+</span>44 <span style=''>   * Method to convert customer raw data into dataframe
+</span>45 <span style=''>   * @param sprk
+</span>46 <span style=''>   * @param pathC
+</span>47 <span style=''>   * @return customerInfo
+</span>48 <span style=''>   */
+</span>49 <span style=''>  def getCustomerInfoDataFrame(sprk:SparkSession,pathC:String,schema:StructType) : DataFrame = {
+</span>50 <span style=''>    //cust_id,cust_name,cust_dob,gender
+</span>51 <span style=''>    val customerInfo = </span><span style='background: #AEF1AE'>Try({
+</span>52 <span style=''></span><span style='background: #AEF1AE'>      val customerFlat = sprk.read.format(&quot;CSV&quot;).schema(schema).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;)
+</span>53 <span style=''></span><span style='background: #AEF1AE'>        .csv(pathC)
+</span>54 <span style=''></span><span style='background: #AEF1AE'>      customerFlat
+</span>55 <span style=''></span><span style='background: #AEF1AE'>    })</span><span style=''>
+</span>56 <span style=''>    customerInfo match {
+</span>57 <span style=''>      case Success(v) =&gt; v
+</span>58 <span style=''>      case Failure(issue) =&gt;
+</span>59 <span style=''>        </span><span style='background: #AEF1AE'>throw new FileNotFoundException(&quot;FileNotFound for customer's info&quot;)</span><span style=''>
+</span>60 <span style=''>    }
+</span>61 <span style=''>  }
+</span>62 <span style=''>
+</span>63 <span style=''>  private val timesec = </span><span style='background: #AEF1AE'>System.currentTimeMillis()</span><span style=''>
+</span>64 <span style=''>  val currentDate = </span><span style='background: #AEF1AE'>new Date(timesec)</span><span style=''>
+</span>65 <span style=''>  val dateFormat = </span><span style='background: #AEF1AE'>new SimpleDateFormat(&quot;yyyy-MM-dd&quot;)</span><span style=''>
+</span>66 <span style=''>  </span><span style='background: #AEF1AE'>dateFormat.setLenient(false)</span><span style=''>
+</span>67 <span style=''>    val getAge = </span><span style='background: #AEF1AE'>udf((dob:String) =&gt; {
+</span>68 <span style=''></span><span style='background: #AEF1AE'>    Try {
+</span>69 <span style=''></span><span style='background: #AEF1AE'>      val dateUtil = dateFormat.parse(dob)
+</span>70 <span style=''></span><span style='background: #AEF1AE'>      val dobDate = new Date(dateUtil.getTime)
+</span>71 <span style=''></span><span style='background: #AEF1AE'>      currentDate.getYear - dobDate.getYear
+</span>72 <span style=''></span><span style='background: #AEF1AE'>    } match {
+</span>73 <span style=''></span><span style='background: #AEF1AE'>      case Success(v) =&gt; v.toInt
+</span>74 <span style=''></span><span style='background: #AEF1AE'>      case Failure(issue) =&gt;
+</span>75 <span style=''></span><span style='background: #AEF1AE'>        throw new ParseException(dob, currentDate.getYear)
+</span>76 <span style=''></span><span style='background: #AEF1AE'>        </span><span style='background: #F0ADAD'>0</span><span style='background: #AEF1AE'>
+</span>77 <span style=''></span><span style='background: #AEF1AE'>    }
+</span>78 <span style=''></span><span style='background: #AEF1AE'>  })</span><span style=''>
+</span>79 <span style=''>
+</span>80 <span style=''>  /**
+</span>81 <span style=''>   * Method to flatten customer info data and add AGE &amp; AGE_GROUP columns.
+</span>82 <span style=''>   * @param customerFlat
+</span>83 <span style=''>   * @return resultCustomer
+</span>84 <span style=''>   */
+</span>85 <span style=''>  def callCustomerInfo(customerFlat:DataFrame) : DataFrame = {
+</span>86 <span style=''>    val custInfo = </span><span style='background: #AEF1AE'>customerFlat.withColumn(&quot;age&quot;, getAge(col(&quot;cust_dob&quot;)))</span><span style=''>
+</span>87 <span style=''>    val resultCustomer = </span><span style='background: #AEF1AE'>custInfo.withColumn(&quot;age_group&quot;, when(col(&quot;age&quot;).&gt;=(MIN_20_AGE_GROUP) &amp;&amp; col(&quot;age&quot;).&lt;=(MAX_20_AGE_GROUP), &quot;20_age_group&quot;)
+</span>88 <span style=''></span><span style='background: #AEF1AE'>      .when(col(&quot;age&quot;).&gt;(MIN_25_AGE_GROUP) &amp;&amp; col(&quot;age&quot;).&lt;=(MAX_25_AGE_GROUP), &quot;25_age_group&quot;)
+</span>89 <span style=''></span><span style='background: #AEF1AE'>      .when(col(&quot;age&quot;).&gt;(MAX_25_AGE_GROUP) &amp;&amp; col(&quot;age&quot;).&lt;=(MAX_30_AGE_GROUP), &quot;30_age_group&quot;)
+</span>90 <span style=''></span><span style='background: #AEF1AE'>      .otherwise(&quot;unknown&quot;))</span><span style=''>
+</span>91 <span style=''>    resultCustomer
+</span>92 <span style=''>  }
+</span>93 <span style=''>}
 </span></pre>
           </div>
           <div class="tab-pane" id="statementlist">
@@ -124,15 +128,15 @@
         <th>Code</th>
       </tr><tr>
         <td>
-          32
+          36
         </td>
         <td>
-          24
+          128
         </td>
         <td>
-          1228
+          1309
           -
-          1230
+          1311
         </td>
         <td>
           Literal
@@ -145,15 +149,15 @@
         </td>
       </tr><tr>
         <td>
-          33
+          37
         </td>
         <td>
-          25
+          129
         </td>
         <td>
-          1265
+          1346
           -
-          1267
+          1348
         </td>
         <td>
           Literal
@@ -166,15 +170,15 @@
         </td>
       </tr><tr>
         <td>
-          34
+          38
         </td>
         <td>
-          26
+          130
         </td>
         <td>
-          1302
+          1383
           -
-          1304
+          1385
         </td>
         <td>
           Literal
@@ -187,15 +191,15 @@
         </td>
       </tr><tr>
         <td>
-          35
+          39
         </td>
         <td>
-          27
+          131
         </td>
         <td>
-          1339
+          1420
           -
-          1341
+          1422
         </td>
         <td>
           Literal
@@ -208,15 +212,15 @@
         </td>
       </tr><tr>
         <td>
-          36
+          40
         </td>
         <td>
-          28
+          132
         </td>
         <td>
-          1376
+          1457
           -
-          1378
+          1459
         </td>
         <td>
           Literal
@@ -229,15 +233,15 @@
         </td>
       </tr><tr>
         <td>
-          37
+          41
         </td>
         <td>
-          29
+          133
         </td>
         <td>
-          1421
+          1502
           -
-          1425
+          1506
         </td>
         <td>
           Literal
@@ -250,15 +254,15 @@
         </td>
       </tr><tr>
         <td>
-          47
+          51
         </td>
         <td>
-          31
+          135
         </td>
         <td>
-          1669
+          1807
           -
-          1847
+          1958
         </td>
         <td>
           Apply
@@ -268,21 +272,21 @@
         </td>
         <td style="background: #AEF1AE">
           scala.util.Try.apply[org.apache.spark.sql.DataFrame]({
-  val customerFlat: org.apache.spark.sql.DataFrame = sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, CustomerFlatten.this.HEADER_FOR_CUSTOMER_DATA).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC);
+  val customerFlat: org.apache.spark.sql.DataFrame = sprk.read.format(&quot;CSV&quot;).schema(schema).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC);
   customerFlat
 })
         </td>
       </tr><tr>
         <td>
-          49
+          53
         </td>
         <td>
-          30
+          134
         </td>
         <td>
-          1701
+          1839
           -
-          1819
+          1930
         </td>
         <td>
           Apply
@@ -291,19 +295,19 @@
           org.apache.spark.sql.DataFrameReader.csv
         </td>
         <td style="background: #AEF1AE">
-          sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, CustomerFlatten.this.HEADER_FOR_CUSTOMER_DATA).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC)
+          sprk.read.format(&quot;CSV&quot;).schema(schema).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC)
         </td>
       </tr><tr>
         <td>
-          55
+          59
         </td>
         <td>
-          32
+          136
         </td>
         <td>
-          1941
+          2052
           -
-          2008
+          2119
         </td>
         <td>
           Throw
@@ -316,15 +320,15 @@
         </td>
       </tr><tr>
         <td>
-          59
+          63
         </td>
         <td>
-          33
+          137
         </td>
         <td>
-          2048
+          2159
           -
-          2074
+          2185
         </td>
         <td>
           Apply
@@ -337,15 +341,15 @@
         </td>
       </tr><tr>
         <td>
-          60
+          64
         </td>
         <td>
-          35
+          139
         </td>
         <td>
-          2096
+          2207
           -
-          2113
+          2224
         </td>
         <td>
           Apply
@@ -358,15 +362,15 @@
         </td>
       </tr><tr>
         <td>
-          60
+          64
         </td>
         <td>
-          34
+          138
         </td>
         <td>
-          2105
+          2216
           -
-          2112
+          2223
         </td>
         <td>
           Select
@@ -379,15 +383,15 @@
         </td>
       </tr><tr>
         <td>
-          61
+          65
         </td>
         <td>
-          36
+          140
         </td>
         <td>
-          2134
+          2245
           -
-          2168
+          2279
         </td>
         <td>
           Apply
@@ -400,15 +404,15 @@
         </td>
       </tr><tr>
         <td>
-          62
+          66
         </td>
         <td>
-          37
+          141
         </td>
         <td>
-          2172
+          2283
           -
-          2200
+          2311
         </td>
         <td>
           Apply
@@ -421,15 +425,15 @@
         </td>
       </tr><tr>
         <td>
-          63
+          67
         </td>
         <td>
-          47
+          151
         </td>
         <td>
-          2219
+          2330
           -
-          2551
+          2662
         </td>
         <td>
           ApplyToImplicitArgs
@@ -469,15 +473,15 @@
         </td>
       </tr><tr>
         <td>
-          64
+          68
         </td>
         <td>
-          43
+          147
         </td>
         <td>
-          2246
+          2357
           -
-          2395
+          2506
         </td>
         <td>
           Apply
@@ -494,15 +498,15 @@
         </td>
       </tr><tr>
         <td>
-          65
+          69
         </td>
         <td>
-          38
+          142
         </td>
         <td>
-          2274
+          2385
           -
-          2295
+          2406
         </td>
         <td>
           Apply
@@ -515,15 +519,15 @@
         </td>
       </tr><tr>
         <td>
-          66
+          70
         </td>
         <td>
-          40
+          144
         </td>
         <td>
-          2317
+          2428
           -
-          2343
+          2454
         </td>
         <td>
           Apply
@@ -536,15 +540,15 @@
         </td>
       </tr><tr>
         <td>
-          66
+          70
         </td>
         <td>
-          39
+          143
         </td>
         <td>
-          2326
+          2437
           -
-          2342
+          2453
         </td>
         <td>
           Apply
@@ -557,36 +561,15 @@
         </td>
       </tr><tr>
         <td>
-          67
+          71
         </td>
         <td>
-          41
+          146
         </td>
         <td>
-          2373
+          2462
           -
-          2388
-        </td>
-        <td>
-          Apply
-        </td>
-        <td>
-          java.util.Date.getYear
-        </td>
-        <td style="background: #AEF1AE">
-          dobDate.getYear()
-        </td>
-      </tr><tr>
-        <td>
-          67
-        </td>
-        <td>
-          42
-        </td>
-        <td>
-          2351
-          -
-          2388
+          2499
         </td>
         <td>
           Apply
@@ -599,15 +582,36 @@
         </td>
       </tr><tr>
         <td>
-          69
+          71
         </td>
         <td>
-          44
+          145
         </td>
         <td>
-          2430
+          2484
           -
-          2437
+          2499
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          java.util.Date.getYear
+        </td>
+        <td style="background: #AEF1AE">
+          dobDate.getYear()
+        </td>
+      </tr><tr>
+        <td>
+          73
+        </td>
+        <td>
+          148
+        </td>
+        <td>
+          2541
+          -
+          2548
         </td>
         <td>
           Select
@@ -620,15 +624,15 @@
         </td>
       </tr><tr>
         <td>
-          71
+          75
         </td>
         <td>
-          45
+          149
         </td>
         <td>
-          2477
+          2588
           -
-          2527
+          2638
         </td>
         <td>
           Throw
@@ -641,15 +645,15 @@
         </td>
       </tr><tr>
         <td>
-          72
+          76
         </td>
         <td>
-          46
+          150
         </td>
         <td>
-          2537
+          2648
           -
-          2538
+          2649
         </td>
         <td>
           Literal
@@ -662,78 +666,15 @@
         </td>
       </tr><tr>
         <td>
-          82
+          86
         </td>
         <td>
-          50
+          155
         </td>
         <td>
-          2814
+          2894
           -
-          2837
-        </td>
-        <td>
-          Apply
-        </td>
-        <td>
-          org.apache.spark.sql.expressions.UserDefinedFunction.apply
-        </td>
-        <td style="background: #AEF1AE">
-          CustomerFlatten.this.getAge.apply(org.apache.spark.sql.functions.col(&quot;cust_dob&quot;))
-        </td>
-      </tr><tr>
-        <td>
-          82
-        </td>
-        <td>
-          49
-        </td>
-        <td>
-          2821
-          -
-          2836
-        </td>
-        <td>
-          Apply
-        </td>
-        <td>
-          org.apache.spark.sql.functions.col
-        </td>
-        <td style="background: #AEF1AE">
-          org.apache.spark.sql.functions.col(&quot;cust_dob&quot;)
-        </td>
-      </tr><tr>
-        <td>
-          82
-        </td>
-        <td>
-          48
-        </td>
-        <td>
-          2807
-          -
-          2812
-        </td>
-        <td>
-          Literal
-        </td>
-        <td>
-          &lt;nosymbol&gt;
-        </td>
-        <td style="background: #AEF1AE">
-          &quot;age&quot;
-        </td>
-      </tr><tr>
-        <td>
-          82
-        </td>
-        <td>
-          51
-        </td>
-        <td>
-          2783
-          -
-          2838
+          2949
         </td>
         <td>
           Apply
@@ -746,15 +687,57 @@
         </td>
       </tr><tr>
         <td>
-          83
+          86
         </td>
         <td>
-          52
+          154
         </td>
         <td>
-          2885
+          2925
           -
-          2896
+          2948
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.expressions.UserDefinedFunction.apply
+        </td>
+        <td style="background: #AEF1AE">
+          CustomerFlatten.this.getAge.apply(org.apache.spark.sql.functions.col(&quot;cust_dob&quot;))
+        </td>
+      </tr><tr>
+        <td>
+          86
+        </td>
+        <td>
+          153
+        </td>
+        <td>
+          2932
+          -
+          2947
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.functions.col
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.functions.col(&quot;cust_dob&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          86
+        </td>
+        <td>
+          152
+        </td>
+        <td>
+          2918
+          -
+          2923
         </td>
         <td>
           Literal
@@ -763,19 +746,19 @@
           &lt;nosymbol&gt;
         </td>
         <td style="background: #AEF1AE">
-          &quot;age_group&quot;
+          &quot;age&quot;
         </td>
       </tr><tr>
         <td>
-          83
+          87
         </td>
         <td>
-          54
+          158
         </td>
         <td>
-          2865
+          2976
           -
-          3208
+          3319
         </td>
         <td>
           Apply
@@ -788,15 +771,36 @@
         </td>
       </tr><tr>
         <td>
-          86
+          87
         </td>
         <td>
-          53
+          156
         </td>
         <td>
-          2898
+          2996
           -
-          3207
+          3007
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;age_group&quot;
+        </td>
+      </tr><tr>
+        <td>
+          90
+        </td>
+        <td>
+          157
+        </td>
+        <td>
+          3009
+          -
+          3318
         </td>
         <td>
           Apply

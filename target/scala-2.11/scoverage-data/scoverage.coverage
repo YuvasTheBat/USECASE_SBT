@@ -24,16 +24,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1097
-1164
-25
-<nosymbol>
-Literal
+<none>
+1173
+1189
+29
+java.util.Properties.<init>
+Apply
 false
 0
 false
-"C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\dob.csv"
+new java.util.Properties()
 
 2
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -41,16 +41,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1194
-1263
-26
-<nosymbol>
-Literal
+<none>
+1214
+1255
+30
+java.lang.Class.getResource
+Apply
 false
 0
 false
-"C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\offer.csv"
+CustomerMain.this.getClass().getResource("/input.properties")
 
 3
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -58,16 +58,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1287
-1357
-27
-<nosymbol>
-Literal
+<none>
+1262
+1284
+31
+java.lang.Object.!=
+Apply
 false
 0
 false
-"C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\number.csv"
+CustomerMain.this.propertiesPath.!=(null)
 
 4
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -75,16 +75,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1385
-1460
-28
-<nosymbol>
-Literal
+<none>
+1320
+1334
+32
+com.ica.customer.implementation.CustomerMain.propertiesPath
+Select
 false
 0
 false
-"C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\transaction.csv"
+CustomerMain.this.propertiesPath
 
 5
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -92,16 +92,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1572
-1576
-30
-com.ica.customer.session.SessionInit.sprk
-Select
+<none>
+1305
+1335
+32
+scala.io.Source.fromURL
+ApplyToImplicitArgs
 false
 0
 false
-CustomerMain.this.sprk
+scala.io.Source.fromURL(CustomerMain.this.propertiesPath)(io.this.Codec.fallbackSystemCodec)
 
 6
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -109,16 +109,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1531
-1594
-30
-com.ica.customer.info.CustomerFlatten.getCustomerInfoDataFrame
+<none>
+1351
+1373
+33
+scala.io.BufferedSource.bufferedReader
 Apply
 false
 0
 false
-com.ica.customer.info.CustomerFlatten.getCustomerInfoDataFrame(CustomerMain.this.sprk, customerInfoPath)
+input.bufferedReader()
 
 7
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -126,16 +126,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1600
-1631
-31
-org.apache.spark.sql.Dataset.show
+<none>
+1341
+1374
+33
+java.util.Properties.load
 Apply
 false
 0
 false
-getCustomerInfoDataFrame.show()
+CustomerMain.this.prop.load(input.bufferedReader())
 
 8
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -143,16 +143,19 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1656
-1714
-32
-com.ica.customer.info.CustomerFlatten.callCustomerInfo
-Apply
-false
+<none>
+1286
+1379
+31
+<nosymbol>
+Block
+true
 0
 false
-com.ica.customer.info.CustomerFlatten.callCustomerInfo(getCustomerInfoDataFrame)
+{
+  val input: scala.io.BufferedSource = scala.io.Source.fromURL(CustomerMain.this.propertiesPath)(io.this.Codec.fallbackSystemCodec);
+  CustomerMain.this.prop.load(input.bufferedReader())
+}
 
 9
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -160,16 +163,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1720
-1739
-33
-org.apache.spark.sql.Dataset.show
-Apply
+<none>
+1259
+1259
+31
+<nosymbol>
+Literal
 false
 0
 false
-customerCall.show()
+()
 
 10
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -177,16 +180,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1815
-1880
-35
-com.ica.customer.info.CustomerOfferFlatten.getCustomerOfferDataFrame
-Apply
-false
+<none>
+1259
+1259
+31
+<nosymbol>
+Block
+true
 0
 false
-com.ica.customer.info.CustomerOfferFlatten.getCustomerOfferDataFrame(customerOfferInfo)
+()
 
 11
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -194,16 +197,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1901
-1949
-36
-com.ica.customer.info.CustomerOfferFlatten.getWeeksOfYear
+<none>
+1406
+1444
+35
+java.util.Properties.getProperty
 Apply
 false
 0
 false
-com.ica.customer.info.CustomerOfferFlatten.getWeeksOfYear(weekOfYears)
+CustomerMain.this.prop.getProperty("customer_info_data")
 
 12
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -211,16 +214,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-1976
-2045
-37
-com.ica.customer.info.CustomerOfferFlatten.customerOfferCall
+<none>
+1472
+1511
+36
+java.util.Properties.getProperty
 Apply
 false
 0
 false
-com.ica.customer.info.CustomerOfferFlatten.customerOfferCall(getCustomerOfferInfo, getWeeks)
+CustomerMain.this.prop.getProperty("customer_offer_data")
 
 13
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -228,16 +231,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-2051
-2072
-38
-org.apache.spark.sql.Dataset.show
+<none>
+1533
+1564
+37
+java.util.Properties.getProperty
 Apply
 false
 0
 false
-customerOffers.show()
+CustomerMain.this.prop.getProperty("week_number")
 
 14
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -245,16 +248,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-2155
-2222
-40
-com.ica.customer.info.CustomerTransactionFlatten.getTransactionDataFrame
+<none>
+1590
+1635
+38
+java.util.Properties.getProperty
 Apply
 false
 0
 false
-com.ica.customer.info.CustomerTransactionFlatten.getTransactionDataFrame(transactionData)
+CustomerMain.this.prop.getProperty("customer_transaction_data")
 
 15
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -262,16 +265,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-2263
-2337
-41
-com.ica.customer.info.CustomerTransactionFlatten.callCustomerTransaction
-Apply
+<none>
+1727
+1736
+40
+<nosymbol>
+Literal
 false
 0
 false
-com.ica.customer.info.CustomerTransactionFlatten.callCustomerTransaction(getCustomerTransaction)
+"cust_id"
 
 16
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -279,16 +282,16 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-2343
-2378
-42
-org.apache.spark.sql.Dataset.show
-Apply
+<none>
+1738
+1748
+40
+org.apache.spark.sql.types.StringType
+Select
 false
 0
 false
-transactionDetailsOfCustomer.show()
+org.apache.spark.sql.types.StringType
 
 17
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
@@ -296,214 +299,10 @@ com.ica.customer.implementation
 CustomerMain
 Object
 com.ica.customer.implementation.CustomerMain
-main
-2465
-2565
-45
-com.ica.customer.utilities.CustomerUtilities.customerWiseweeklyStatus
-Apply
-false
-0
-false
-com.ica.customer.utilities.CustomerUtilities.customerWiseweeklyStatus(customerCall, customerOffers, transactionDetailsOfCustomer)
-
-18
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
-com.ica.customer.implementation
-CustomerMain
-Object
-com.ica.customer.implementation.CustomerMain
-main
-2571
-2599
-46
-org.apache.spark.sql.Dataset.show
-Apply
-false
-0
-false
-customersWeeklyStatus.show()
-
-19
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
-com.ica.customer.implementation
-CustomerMain
-Object
-com.ica.customer.implementation.CustomerMain
-main
-2676
-2744
-49
-com.ica.customer.utilities.CustomerUtilities.customerOverAllWeeklyStatus
-Apply
-false
-0
-false
-com.ica.customer.utilities.CustomerUtilities.customerOverAllWeeklyStatus(customersWeeklyStatus)
-
-20
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
-com.ica.customer.implementation
-CustomerMain
-Object
-com.ica.customer.implementation.CustomerMain
-main
-2750
-2776
-50
-org.apache.spark.sql.Dataset.show
-Apply
-false
-0
-false
-overAllWeeklyStatus.show()
-
-21
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
-com.ica.customer.implementation
-CustomerMain
-Object
-com.ica.customer.implementation.CustomerMain
-main
-2863
-2949
-53
-com.ica.customer.utilities.CustomerUtilities.customerTransactionResult
-Apply
-false
-0
-false
-com.ica.customer.utilities.CustomerUtilities.customerTransactionResult(transactionDetailsOfCustomer, customerCall)
-
-22
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
-com.ica.customer.implementation
-CustomerMain
-Object
-com.ica.customer.implementation.CustomerMain
-main
-2987
-3050
-54
-com.ica.customer.utilities.CustomerUtilities.transactionOnAgeGroupWise
-Apply
-false
-0
-false
-com.ica.customer.utilities.CustomerUtilities.transactionOnAgeGroupWise(agewiseTransaction)
-
-23
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
-com.ica.customer.implementation
-CustomerMain
-Object
-com.ica.customer.implementation.CustomerMain
-main
-3056
-3088
-55
-org.apache.spark.sql.Dataset.show
-Apply
-false
-0
-false
-transactionOnAgeGroupWise.show()
-
-24
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
-com.ica.customer.info
-CustomerFlatten
-Object
-com.ica.customer.info.CustomerFlatten
 <none>
-1228
-1230
-32
-<nosymbol>
-Literal
-false
-0
-false
-15
-
-25
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
-com.ica.customer.info
-CustomerFlatten
-Object
-com.ica.customer.info.CustomerFlatten
-<none>
-1265
-1267
-33
-<nosymbol>
-Literal
-false
-0
-false
-20
-
-26
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
-com.ica.customer.info
-CustomerFlatten
-Object
-com.ica.customer.info.CustomerFlatten
-<none>
-1302
-1304
-34
-<nosymbol>
-Literal
-false
-0
-false
-21
-
-27
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
-com.ica.customer.info
-CustomerFlatten
-Object
-com.ica.customer.info.CustomerFlatten
-<none>
-1339
-1341
-35
-<nosymbol>
-Literal
-false
-0
-false
-25
-
-28
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
-com.ica.customer.info
-CustomerFlatten
-Object
-com.ica.customer.info.CustomerFlatten
-<none>
-1376
-1378
-36
-<nosymbol>
-Literal
-false
-0
-false
-31
-
-29
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
-com.ica.customer.info
-CustomerFlatten
-Object
-com.ica.customer.info.CustomerFlatten
-<none>
-1421
-1425
-37
+1750
+1754
+40
 <nosymbol>
 Literal
 false
@@ -511,53 +310,2025 @@ false
 false
 true
 
+18
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1715
+1715
+40
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+19
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1715
+1755
+40
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("cust_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+20
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1774
+1785
+41
+<nosymbol>
+Literal
+false
+0
+false
+"cust_name"
+
+21
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1787
+1797
+41
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+22
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1799
+1803
+41
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+23
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1762
+1762
+41
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+24
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1762
+1804
+41
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("cust_name", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+25
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1823
+1833
+42
+<nosymbol>
+Literal
+false
+0
+false
+"cust_dob"
+
+26
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1835
+1845
+42
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+27
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1847
+1851
+42
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+28
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1811
+1811
+42
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+29
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1811
+1852
+42
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("cust_dob", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
 30
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1871
+1879
+43
+<nosymbol>
+Literal
+false
+0
+false
+"gender"
+
+31
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1880
+1890
+43
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+32
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1891
+1895
+43
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+33
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1859
+1859
+43
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+34
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1859
+1896
+43
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("gender", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+35
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1709
+1897
+40
+scala.Array.apply
+ApplyToImplicitArgs
+false
+0
+false
+scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply("cust_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("cust_name", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("cust_dob", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("gender", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField]))
+
+36
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1698
+1898
+40
+org.apache.spark.sql.types.StructType.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructType.apply(scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply("cust_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("cust_name", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("cust_dob", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("gender", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField])))
+
+37
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1998
+2008
+45
+<nosymbol>
+Literal
+false
+0
+false
+"offer_id"
+
+38
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2010
+2020
+45
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+39
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2022
+2026
+45
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+40
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1986
+1986
+45
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+41
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1986
+2027
+45
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("offer_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+42
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2046
+2058
+46
+<nosymbol>
+Literal
+false
+0
+false
+"offer_name"
+
+43
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2060
+2070
+46
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+44
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2072
+2076
+46
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+45
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2034
+2034
+46
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+46
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2034
+2077
+46
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("offer_name", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+47
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2096
+2105
+47
+<nosymbol>
+Literal
+false
+0
+false
+"cust_id"
+
+48
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2107
+2117
+47
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+49
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2119
+2123
+47
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+50
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2084
+2084
+47
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+51
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2084
+2124
+47
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("cust_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+52
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2143
+2155
+48
+<nosymbol>
+Literal
+false
+0
+false
+"begin_date"
+
+53
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2157
+2167
+48
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+54
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2169
+2173
+48
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+55
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2131
+2131
+48
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+56
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2131
+2174
+48
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("begin_date", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+57
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2193
+2203
+49
+<nosymbol>
+Literal
+false
+0
+false
+"end_date"
+
+58
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2204
+2214
+49
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+59
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2215
+2219
+49
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+60
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2181
+2181
+49
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+61
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2181
+2220
+49
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("end_date", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+62
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1980
+2221
+45
+scala.Array.apply
+ApplyToImplicitArgs
+false
+0
+false
+scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply("offer_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("offer_name", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("cust_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("begin_date", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("end_date", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField]))
+
+63
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+1969
+2222
+45
+org.apache.spark.sql.types.StructType.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructType.apply(scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply("offer_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("offer_name", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("cust_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("begin_date", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("end_date", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField])))
+
+64
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2334
+2350
+51
+<nosymbol>
+Literal
+false
+0
+false
+"transaction_id"
+
+65
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2352
+2362
+51
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+66
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2364
+2368
+51
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+67
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2322
+2322
+51
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+68
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2322
+2369
+51
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("transaction_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+69
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2388
+2401
+52
+<nosymbol>
+Literal
+false
+0
+false
+"customer_id"
+
+70
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2403
+2413
+52
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+71
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2415
+2419
+52
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+72
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2376
+2376
+52
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+73
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2376
+2420
+52
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("customer_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+74
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2439
+2451
+53
+<nosymbol>
+Literal
+false
+0
+false
+"product_id"
+
+75
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2453
+2463
+53
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+76
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2465
+2469
+53
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+77
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2427
+2427
+53
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+78
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2427
+2470
+53
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("product_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+79
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2489
+2499
+54
+<nosymbol>
+Literal
+false
+0
+false
+"store_id"
+
+80
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2500
+2510
+54
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+81
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2511
+2515
+54
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+82
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2477
+2477
+54
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+83
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2477
+2516
+54
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("store_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+84
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2535
+2545
+55
+<nosymbol>
+Literal
+false
+0
+false
+"offer_id"
+
+85
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2546
+2556
+55
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+86
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2557
+2561
+55
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+87
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2523
+2523
+55
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+88
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2523
+2562
+55
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("offer_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+89
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2581
+2588
+56
+<nosymbol>
+Literal
+false
+0
+false
+"sales"
+
+90
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2589
+2599
+56
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+91
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2600
+2604
+56
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+92
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2569
+2569
+56
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+93
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2569
+2605
+56
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("sales", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+94
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2624
+2630
+57
+<nosymbol>
+Literal
+false
+0
+false
+"date"
+
+95
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2631
+2641
+57
+org.apache.spark.sql.types.StringType
+Select
+false
+0
+false
+org.apache.spark.sql.types.StringType
+
+96
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2642
+2646
+57
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+97
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2612
+2612
+57
+org.apache.spark.sql.types.StructField.apply$default$4
+Select
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply$default$4
+
+98
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2612
+2647
+57
+org.apache.spark.sql.types.StructField.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructField.apply("date", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4)
+
+99
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2316
+2648
+51
+scala.Array.apply
+ApplyToImplicitArgs
+false
+0
+false
+scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply("transaction_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("customer_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("product_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("store_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("offer_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("sales", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("date", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField]))
+
+100
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+<none>
+2305
+2649
+51
+org.apache.spark.sql.types.StructType.apply
+Apply
+false
+0
+false
+org.apache.spark.sql.types.StructType.apply(scala.Array.apply[org.apache.spark.sql.types.StructField](org.apache.spark.sql.types.StructField.apply("transaction_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("customer_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("product_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("store_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("offer_id", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("sales", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4), org.apache.spark.sql.types.StructField.apply("date", org.apache.spark.sql.types.StringType, true, org.apache.spark.sql.types.StructField.apply$default$4))((ClassTag.apply[org.apache.spark.sql.types.StructField](classOf[org.apache.spark.sql.types.StructField]): scala.reflect.ClassTag[org.apache.spark.sql.types.StructField])))
+
+101
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+2807
+2811
+62
+com.ica.customer.session.SessionInit.sprk
+Select
+false
+0
+false
+CustomerMain.this.sprk
+
+102
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+2812
+2828
+62
+com.ica.customer.implementation.CustomerMain.customerInfoPath
+Select
+false
+0
+false
+CustomerMain.this.customerInfoPath
+
+103
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+2829
+2847
+62
+com.ica.customer.implementation.CustomerMain.customerInfoSchema
+Select
+false
+0
+false
+CustomerMain.this.customerInfoSchema
+
+104
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+2766
+2848
+62
+com.ica.customer.info.CustomerFlatten.getCustomerInfoDataFrame
+Apply
+false
+0
+false
+com.ica.customer.info.CustomerFlatten.getCustomerInfoDataFrame(CustomerMain.this.sprk, CustomerMain.this.customerInfoPath, CustomerMain.this.customerInfoSchema)
+
+105
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+2854
+2885
+63
+org.apache.spark.sql.Dataset.show
+Apply
+false
+0
+false
+getCustomerInfoDataFrame.show()
+
+106
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+2910
+2968
+64
+com.ica.customer.info.CustomerFlatten.callCustomerInfo
+Apply
+false
+0
+false
+com.ica.customer.info.CustomerFlatten.callCustomerInfo(getCustomerInfoDataFrame)
+
+107
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+2974
+2993
+65
+org.apache.spark.sql.Dataset.show
+Apply
+false
+0
+false
+customerCall.show()
+
+108
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3116
+3133
+67
+com.ica.customer.implementation.CustomerMain.customerOfferInfo
+Select
+false
+0
+false
+CustomerMain.this.customerOfferInfo
+
+109
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3134
+3153
+67
+com.ica.customer.implementation.CustomerMain.customerOfferSchema
+Select
+false
+0
+false
+CustomerMain.this.customerOfferSchema
+
+110
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3069
+3154
+67
+com.ica.customer.info.CustomerOfferFlatten.getCustomerOfferDataFrame
+Apply
+false
+0
+false
+com.ica.customer.info.CustomerOfferFlatten.getCustomerOfferDataFrame(CustomerMain.this.customerOfferInfo, CustomerMain.this.customerOfferSchema)
+
+111
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3211
+3222
+68
+com.ica.customer.implementation.CustomerMain.weekOfYears
+Select
+false
+0
+false
+CustomerMain.this.weekOfYears
+
+112
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3175
+3223
+68
+com.ica.customer.info.CustomerOfferFlatten.getWeeksOfYear
+Apply
+false
+0
+false
+com.ica.customer.info.CustomerOfferFlatten.getWeeksOfYear(CustomerMain.this.weekOfYears)
+
+113
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3250
+3319
+69
+com.ica.customer.info.CustomerOfferFlatten.customerOfferCall
+Apply
+false
+0
+false
+com.ica.customer.info.CustomerOfferFlatten.customerOfferCall(getCustomerOfferInfo, getWeeks)
+
+114
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3325
+3346
+70
+org.apache.spark.sql.Dataset.show
+Apply
+false
+0
+false
+customerOffers.show()
+
+115
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3480
+3495
+72
+com.ica.customer.implementation.CustomerMain.transactionData
+Select
+false
+0
+false
+CustomerMain.this.transactionData
+
+116
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3496
+3521
+72
+com.ica.customer.implementation.CustomerMain.customerTransactionSchema
+Select
+false
+0
+false
+CustomerMain.this.customerTransactionSchema
+
+117
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3429
+3522
+72
+com.ica.customer.info.CustomerTransactionFlatten.getTransactionDataFrame
+Apply
+false
+0
+false
+com.ica.customer.info.CustomerTransactionFlatten.getTransactionDataFrame(CustomerMain.this.transactionData, CustomerMain.this.customerTransactionSchema)
+
+118
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3528
+3557
+73
+org.apache.spark.sql.Dataset.show
+Apply
+false
+0
+false
+getCustomerTransaction.show()
+
+119
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3598
+3672
+74
+com.ica.customer.info.CustomerTransactionFlatten.callCustomerTransaction
+Apply
+false
+0
+false
+com.ica.customer.info.CustomerTransactionFlatten.callCustomerTransaction(getCustomerTransaction)
+
+120
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3678
+3713
+75
+org.apache.spark.sql.Dataset.show
+Apply
+false
+0
+false
+transactionDetailsOfCustomer.show()
+
+121
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3800
+3900
+78
+com.ica.customer.utilities.CustomerUtilities.customerWiseweeklyStatus
+Apply
+false
+0
+false
+com.ica.customer.utilities.CustomerUtilities.customerWiseweeklyStatus(customerCall, customerOffers, transactionDetailsOfCustomer)
+
+122
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+3906
+3934
+79
+org.apache.spark.sql.Dataset.show
+Apply
+false
+0
+false
+customersWeeklyStatus.show()
+
+123
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+4011
+4079
+82
+com.ica.customer.utilities.CustomerUtilities.customerOverAllWeeklyStatus
+Apply
+false
+0
+false
+com.ica.customer.utilities.CustomerUtilities.customerOverAllWeeklyStatus(customersWeeklyStatus)
+
+124
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+4085
+4111
+83
+org.apache.spark.sql.Dataset.show
+Apply
+false
+0
+false
+overAllWeeklyStatus.show()
+
+125
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+4198
+4284
+86
+com.ica.customer.utilities.CustomerUtilities.customerTransactionResult
+Apply
+false
+0
+false
+com.ica.customer.utilities.CustomerUtilities.customerTransactionResult(transactionDetailsOfCustomer, customerCall)
+
+126
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+4322
+4385
+87
+com.ica.customer.utilities.CustomerUtilities.transactionOnAgeGroupWise
+Apply
+false
+0
+false
+com.ica.customer.utilities.CustomerUtilities.transactionOnAgeGroupWise(agewiseTransaction)
+
+127
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\implementation\CustomerMain.scala
+com.ica.customer.implementation
+CustomerMain
+Object
+com.ica.customer.implementation.CustomerMain
+main
+4391
+4423
+88
+org.apache.spark.sql.Dataset.show
+Apply
+false
+0
+false
+transactionOnAgeGroupWise.show()
+
+128
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
+com.ica.customer.info
+CustomerFlatten
+Object
+com.ica.customer.info.CustomerFlatten
+<none>
+1309
+1311
+36
+<nosymbol>
+Literal
+false
+0
+false
+15
+
+129
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
+com.ica.customer.info
+CustomerFlatten
+Object
+com.ica.customer.info.CustomerFlatten
+<none>
+1346
+1348
+37
+<nosymbol>
+Literal
+false
+0
+false
+20
+
+130
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
+com.ica.customer.info
+CustomerFlatten
+Object
+com.ica.customer.info.CustomerFlatten
+<none>
+1383
+1385
+38
+<nosymbol>
+Literal
+false
+0
+false
+21
+
+131
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
+com.ica.customer.info
+CustomerFlatten
+Object
+com.ica.customer.info.CustomerFlatten
+<none>
+1420
+1422
+39
+<nosymbol>
+Literal
+false
+0
+false
+25
+
+132
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
+com.ica.customer.info
+CustomerFlatten
+Object
+com.ica.customer.info.CustomerFlatten
+<none>
+1457
+1459
+40
+<nosymbol>
+Literal
+false
+0
+false
+31
+
+133
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
+com.ica.customer.info
+CustomerFlatten
+Object
+com.ica.customer.info.CustomerFlatten
+<none>
+1502
+1506
+41
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+134
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 getCustomerInfoDataFrame
-1701
-1819
-49
+1839
+1930
+53
 org.apache.spark.sql.DataFrameReader.csv
 Apply
 false
 0
 false
-sprk.read.format("CSV").option("header", CustomerFlatten.this.HEADER_FOR_CUSTOMER_DATA).option("mode", "DROPMALFORMED").csv(pathC)
+sprk.read.format("CSV").schema(schema).option("mode", "DROPMALFORMED").csv(pathC)
 
-31
+135
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 getCustomerInfoDataFrame
-1669
-1847
-47
+1807
+1958
+51
 scala.util.Try.apply
 Apply
 false
 0
 false
 scala.util.Try.apply[org.apache.spark.sql.DataFrame]({
-  val customerFlat: org.apache.spark.sql.DataFrame = sprk.read.format("CSV").option("header", CustomerFlatten.this.HEADER_FOR_CUSTOMER_DATA).option("mode", "DROPMALFORMED").csv(pathC);
+  val customerFlat: org.apache.spark.sql.DataFrame = sprk.read.format("CSV").schema(schema).option("mode", "DROPMALFORMED").csv(pathC);
   customerFlat
 })
 
-32
+136
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 getCustomerInfoDataFrame
-1941
-2008
-55
+2052
+2119
+59
 <nosymbol>
 Throw
 false
@@ -565,16 +2336,16 @@ false
 false
 throw new java.io.FileNotFoundException("FileNotFound for customer\'s info")
 
-33
+137
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2048
-2074
-59
+2159
+2185
+63
 java.lang.System.currentTimeMillis
 Apply
 false
@@ -582,16 +2353,16 @@ false
 false
 java.this.lang.System.currentTimeMillis()
 
-34
+138
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2105
-2112
-60
+2216
+2223
+64
 com.ica.customer.info.CustomerFlatten.timesec
 Select
 false
@@ -599,16 +2370,16 @@ false
 false
 CustomerFlatten.this.timesec
 
-35
+139
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2096
-2113
-60
+2207
+2224
+64
 java.sql.Date.<init>
 Apply
 false
@@ -616,16 +2387,16 @@ false
 false
 new java.sql.Date(CustomerFlatten.this.timesec)
 
-36
+140
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2134
-2168
-61
+2245
+2279
+65
 java.text.SimpleDateFormat.<init>
 Apply
 false
@@ -633,16 +2404,16 @@ false
 false
 new java.text.SimpleDateFormat("yyyy-MM-dd")
 
-37
+141
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2172
-2200
-62
+2283
+2311
+66
 java.text.DateFormat.setLenient
 Apply
 false
@@ -650,16 +2421,16 @@ false
 false
 CustomerFlatten.this.dateFormat.setLenient(false)
 
-38
+142
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2274
-2295
-65
+2385
+2406
+69
 java.text.DateFormat.parse
 Apply
 false
@@ -667,16 +2438,16 @@ false
 false
 CustomerFlatten.this.dateFormat.parse(dob)
 
-39
+143
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2326
-2342
-66
+2437
+2453
+70
 java.util.Date.getTime
 Apply
 false
@@ -684,16 +2455,16 @@ false
 false
 dateUtil.getTime()
 
-40
+144
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2317
-2343
-66
+2428
+2454
+70
 java.sql.Date.<init>
 Apply
 false
@@ -701,16 +2472,16 @@ false
 false
 new java.sql.Date(dateUtil.getTime())
 
-41
+145
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2373
-2388
-67
+2484
+2499
+71
 java.util.Date.getYear
 Apply
 false
@@ -718,16 +2489,16 @@ false
 false
 dobDate.getYear()
 
-42
+146
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2351
-2388
-67
+2462
+2499
+71
 scala.Int.-
 Apply
 false
@@ -735,16 +2506,16 @@ false
 false
 CustomerFlatten.this.currentDate.getYear().-(dobDate.getYear())
 
-43
+147
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2246
-2395
-64
+2357
+2506
+68
 scala.util.Try.apply
 Apply
 false
@@ -756,16 +2527,16 @@ scala.util.Try.apply[Int]({
   CustomerFlatten.this.currentDate.getYear().-(dobDate.getYear())
 })
 
-44
+148
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2430
-2437
-69
+2541
+2548
+73
 scala.Int.toInt
 Select
 false
@@ -773,16 +2544,16 @@ false
 false
 v.toInt
 
-45
+149
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2477
-2527
-71
+2588
+2638
+75
 <nosymbol>
 Throw
 false
@@ -790,16 +2561,16 @@ false
 false
 throw new java.text.ParseException(dob, CustomerFlatten.this.currentDate.getYear())
 
-46
+150
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2537
-2538
-72
+2648
+2649
+76
 <nosymbol>
 Literal
 false
@@ -807,16 +2578,16 @@ false
 false
 0
 
-47
+151
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 <none>
-2219
-2551
-63
+2330
+2662
+67
 org.apache.spark.sql.functions.udf
 ApplyToImplicitArgs
 false
@@ -851,16 +2622,16 @@ org.apache.spark.sql.functions.udf[Int, String](((dob: String) => scala.util.Try
   })
 }: reflect.runtime.universe.TypeTag[String]))
 
-48
+152
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 callCustomerInfo
-2807
-2812
-82
+2918
+2923
+86
 <nosymbol>
 Literal
 false
@@ -868,16 +2639,16 @@ false
 false
 "age"
 
-49
+153
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 callCustomerInfo
-2821
-2836
-82
+2932
+2947
+86
 org.apache.spark.sql.functions.col
 Apply
 false
@@ -885,16 +2656,16 @@ false
 false
 org.apache.spark.sql.functions.col("cust_dob")
 
-50
+154
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 callCustomerInfo
-2814
-2837
-82
+2925
+2948
+86
 org.apache.spark.sql.expressions.UserDefinedFunction.apply
 Apply
 false
@@ -902,16 +2673,16 @@ false
 false
 CustomerFlatten.this.getAge.apply(org.apache.spark.sql.functions.col("cust_dob"))
 
-51
+155
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 callCustomerInfo
-2783
-2838
-82
+2894
+2949
+86
 org.apache.spark.sql.Dataset.withColumn
 Apply
 false
@@ -919,16 +2690,16 @@ false
 false
 customerFlat.withColumn("age", CustomerFlatten.this.getAge.apply(org.apache.spark.sql.functions.col("cust_dob")))
 
-52
+156
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 callCustomerInfo
-2885
-2896
-83
+2996
+3007
+87
 <nosymbol>
 Literal
 false
@@ -936,16 +2707,16 @@ false
 false
 "age_group"
 
-53
+157
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 callCustomerInfo
-2898
-3207
-86
+3009
+3318
+90
 org.apache.spark.sql.Column.otherwise
 Apply
 false
@@ -953,16 +2724,16 @@ false
 false
 org.apache.spark.sql.functions.when(org.apache.spark.sql.functions.col("age").>=(CustomerFlatten.this.MIN_20_AGE_GROUP).&&(org.apache.spark.sql.functions.col("age").<=(CustomerFlatten.this.MAX_20_AGE_GROUP)), "20_age_group").when(org.apache.spark.sql.functions.col("age").>(CustomerFlatten.this.MIN_25_AGE_GROUP).&&(org.apache.spark.sql.functions.col("age").<=(CustomerFlatten.this.MAX_25_AGE_GROUP)), "25_age_group").when(org.apache.spark.sql.functions.col("age").>(CustomerFlatten.this.MAX_25_AGE_GROUP).&&(org.apache.spark.sql.functions.col("age").<=(CustomerFlatten.this.MAX_30_AGE_GROUP)), "30_age_group").otherwise("unknown")
 
-54
+158
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerFlatten.scala
 com.ica.customer.info
 CustomerFlatten
 Object
 com.ica.customer.info.CustomerFlatten
 callCustomerInfo
-2865
-3208
-83
+2976
+3319
+87
 org.apache.spark.sql.Dataset.withColumn
 Apply
 false
@@ -970,32 +2741,15 @@ false
 false
 custInfo.withColumn("age_group", org.apache.spark.sql.functions.when(org.apache.spark.sql.functions.col("age").>=(CustomerFlatten.this.MIN_20_AGE_GROUP).&&(org.apache.spark.sql.functions.col("age").<=(CustomerFlatten.this.MAX_20_AGE_GROUP)), "20_age_group").when(org.apache.spark.sql.functions.col("age").>(CustomerFlatten.this.MIN_25_AGE_GROUP).&&(org.apache.spark.sql.functions.col("age").<=(CustomerFlatten.this.MAX_25_AGE_GROUP)), "25_age_group").when(org.apache.spark.sql.functions.col("age").>(CustomerFlatten.this.MAX_25_AGE_GROUP).&&(org.apache.spark.sql.functions.col("age").<=(CustomerFlatten.this.MAX_30_AGE_GROUP)), "30_age_group").otherwise("unknown"))
 
-55
+159
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 <none>
-1205
-1209
-30
-<nosymbol>
-Literal
-false
-0
-false
-true
-
-56
-C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
-com.ica.customer.info
-CustomerOfferFlatten
-Object
-com.ica.customer.info.CustomerOfferFlatten
-<none>
-1251
-1255
+1221
+1225
 31
 <nosymbol>
 Literal
@@ -1004,32 +2758,49 @@ false
 false
 true
 
-57
+160
+C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
+com.ica.customer.info
+CustomerOfferFlatten
+Object
+com.ica.customer.info.CustomerOfferFlatten
+<none>
+1267
+1271
+32
+<nosymbol>
+Literal
+false
+0
+false
+true
+
+161
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getCustomerOfferDataFrame
-1545
-1680
-42
+1577
+1668
+41
 org.apache.spark.sql.DataFrameReader.csv
 Apply
 false
 0
 false
-CustomerOfferFlatten.this.sprk.read.format("CSV").option("header", CustomerOfferFlatten.this.HEADER_FOR_CUSTOMER_OFFER_DATA).option("mode", "DROPMALFORMED").csv(pathC)
+CustomerOfferFlatten.this.sprk.read.format("CSV").schema(schema).option("mode", "DROPMALFORMED").csv(pathC)
 
-58
+162
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getCustomerOfferDataFrame
-1507
-1713
+1539
+1701
 39
 scala.util.Try.apply
 Apply
@@ -1037,20 +2808,20 @@ false
 0
 false
 scala.util.Try.apply[org.apache.spark.sql.DataFrame]({
-  val customerOfferFlat: org.apache.spark.sql.DataFrame = CustomerOfferFlatten.this.sprk.read.format("CSV").option("header", CustomerOfferFlatten.this.HEADER_FOR_CUSTOMER_OFFER_DATA).option("mode", "DROPMALFORMED").csv(pathC);
+  val customerOfferFlat: org.apache.spark.sql.DataFrame = CustomerOfferFlatten.this.sprk.read.format("CSV").schema(schema).option("mode", "DROPMALFORMED").csv(pathC);
   customerOfferFlat
 })
 
-59
+163
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getCustomerOfferDataFrame
-1808
-1824
-48
+1796
+1812
+47
 java.lang.Throwable.getMessage
 Apply
 false
@@ -1058,16 +2829,16 @@ false
 false
 issue.getMessage()
 
-60
+164
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getCustomerOfferDataFrame
-1834
-1901
-49
+1822
+1889
+48
 <nosymbol>
 Throw
 false
@@ -1075,16 +2846,16 @@ false
 false
 throw new java.io.FileNotFoundException("FileNotFound For Customer Offers")
 
-61
+165
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2228
-2233
-61
+2216
+2221
+60
 <nosymbol>
 Literal
 false
@@ -1092,16 +2863,16 @@ false
 false
 "CSV"
 
-62
+166
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2252
-2260
-62
+2240
+2248
+61
 <nosymbol>
 Literal
 false
@@ -1109,16 +2880,16 @@ false
 false
 "header"
 
-63
+167
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2262
-2285
-62
+2250
+2273
+61
 com.ica.customer.info.CustomerOfferFlatten.HEADER_FOR_NUMBER_TABLE
 Select
 false
@@ -1126,33 +2897,33 @@ false
 false
 CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE
 
-64
+168
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2319
-2324
-63
+2307
+2315
+62
 <nosymbol>
 Literal
 false
 0
 false
-"AGE"
+"number"
 
-65
+169
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2332
-2345
-63
+2323
+2336
+62
 <nosymbol>
 Literal
 false
@@ -1160,16 +2931,16 @@ false
 false
 "week_number"
 
-66
+170
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2352
-2363
-63
+2343
+2354
+62
 org.apache.spark.sql.types.IntegerType
 Select
 false
@@ -1177,70 +2948,70 @@ false
 false
 org.apache.spark.sql.types.IntegerType
 
-67
+171
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2315
-2364
-63
+2303
+2355
+62
 org.apache.spark.sql.Column.cast
 Apply
 false
 0
 false
-org.apache.spark.sql.functions.col("AGE").alias("week_number").cast(org.apache.spark.sql.types.IntegerType)
+org.apache.spark.sql.functions.col("number").alias("week_number").cast(org.apache.spark.sql.types.IntegerType)
 
-68
+172
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2211
-2365
-63
+2199
+2356
+62
 org.apache.spark.sql.Dataset.select
 Apply
 false
 0
 false
-CustomerOfferFlatten.this.sprk.read.format("CSV").option("header", CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE).csv(pathC).select(org.apache.spark.sql.functions.col("AGE").alias("week_number").cast(org.apache.spark.sql.types.IntegerType))
+CustomerOfferFlatten.this.sprk.read.format("CSV").option("header", CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE).csv(pathC).select(org.apache.spark.sql.functions.col("number").alias("week_number").cast(org.apache.spark.sql.types.IntegerType))
 
-69
+173
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2174
-2397
-60
+2162
+2388
+59
 scala.util.Try.apply
 Apply
 false
 0
 false
 scala.util.Try.apply[org.apache.spark.sql.DataFrame]({
-  val numberTabForYear: org.apache.spark.sql.DataFrame = CustomerOfferFlatten.this.sprk.read.format("CSV").option("header", CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE).csv(pathC).select(org.apache.spark.sql.functions.col("AGE").alias("week_number").cast(org.apache.spark.sql.types.IntegerType));
+  val numberTabForYear: org.apache.spark.sql.DataFrame = CustomerOfferFlatten.this.sprk.read.format("CSV").option("header", CustomerOfferFlatten.this.HEADER_FOR_NUMBER_TABLE).csv(pathC).select(org.apache.spark.sql.functions.col("number").alias("week_number").cast(org.apache.spark.sql.types.IntegerType));
   numberTabForYear
 })
 
-70
+174
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2488
-2511
-69
+2479
+2502
+68
 java.lang.Throwable.printStackTrace
 Apply
 false
@@ -1248,16 +3019,16 @@ false
 false
 issue.printStackTrace()
 
-71
+175
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 getWeeksOfYear
-2521
-2586
-70
+2512
+2577
+69
 <nosymbol>
 Throw
 false
@@ -1265,16 +3036,16 @@ false
 false
 throw new java.io.FileNotFoundException("FileNotFound For Numbers Table")
 
-72
+176
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-2958
-2977
-82
+2949
+2968
+81
 <nosymbol>
 Literal
 false
@@ -1282,16 +3053,16 @@ false
 false
 "begin_week_number"
 
-73
+177
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-2991
-3008
-82
+2982
+2999
+81
 org.apache.spark.sql.functions.col
 Apply
 false
@@ -1299,16 +3070,16 @@ false
 false
 org.apache.spark.sql.functions.col("begin_date")
 
-74
+178
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-3010
-3013
-82
+3001
+3004
+81
 <nosymbol>
 Literal
 false
@@ -1316,16 +3087,16 @@ false
 false
 "w"
 
-75
+179
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-3020
-3031
-82
+3011
+3022
+81
 org.apache.spark.sql.types.IntegerType
 Select
 false
@@ -1333,16 +3104,16 @@ false
 false
 org.apache.spark.sql.types.IntegerType
 
-76
+180
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-2979
-3032
-82
+2970
+3023
+81
 org.apache.spark.sql.Column.cast
 Apply
 false
@@ -1350,16 +3121,16 @@ false
 false
 org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col("begin_date"), "w").cast(org.apache.spark.sql.types.IntegerType)
 
-77
+181
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-3053
-3070
-83
+3044
+3061
+82
 <nosymbol>
 Literal
 false
@@ -1367,16 +3138,16 @@ false
 false
 "end_week_number"
 
-78
+182
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-3084
-3099
-83
+3075
+3090
+82
 org.apache.spark.sql.functions.col
 Apply
 false
@@ -1384,16 +3155,16 @@ false
 false
 org.apache.spark.sql.functions.col("end_date")
 
-79
+183
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-3101
-3104
-83
+3092
+3095
+82
 <nosymbol>
 Literal
 false
@@ -1401,16 +3172,16 @@ false
 false
 "w"
 
-80
+184
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-3111
-3122
-83
+3102
+3113
+82
 org.apache.spark.sql.types.IntegerType
 Select
 false
@@ -1418,16 +3189,16 @@ false
 false
 org.apache.spark.sql.types.IntegerType
 
-81
+185
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-3072
-3123
-83
+3063
+3114
+82
 org.apache.spark.sql.Column.cast
 Apply
 false
@@ -1435,16 +3206,16 @@ false
 false
 org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col("end_date"), "w").cast(org.apache.spark.sql.types.IntegerType)
 
-82
+186
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-2937
-3124
-83
+2928
+3115
+82
 org.apache.spark.sql.Dataset.withColumn
 Apply
 false
@@ -1452,16 +3223,16 @@ false
 false
 offerFlat.withColumn("begin_week_number", org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col("begin_date"), "w").cast(org.apache.spark.sql.types.IntegerType)).withColumn("end_week_number", org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col("end_date"), "w").cast(org.apache.spark.sql.types.IntegerType))
 
-83
+187
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerOfferFlatten.scala
 com.ica.customer.info
 CustomerOfferFlatten
 Object
 com.ica.customer.info.CustomerOfferFlatten
 customerOfferCall
-3156
-3406
-87
+3147
+3397
+86
 org.apache.spark.sql.Dataset.select
 Apply
 false
@@ -1469,15 +3240,15 @@ false
 false
 offer.join(numberTab, numberTab.apply("week_number").between(offer.apply("begin_week_number"), offer.apply("end_week_number"))).select("week_number", "offer_id", "offer_name", "cust_id", "begin_date", "end_date", "begin_week_number", "end_week_number")
 
-84
+188
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 <none>
-1153
-1157
+1177
+1181
 28
 <nosymbol>
 Literal
@@ -1486,32 +3257,32 @@ false
 false
 true
 
-85
+189
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 getTransactionDataFrame
-1418
-1540
+1460
+1551
 38
 org.apache.spark.sql.DataFrameReader.csv
 Apply
 false
 0
 false
-CustomerTransactionFlatten.this.sprk.read.format("CSV").option("header", CustomerTransactionFlatten.this.HEADER_FOR_TRANSACTION_DATA).option("mode", "DROPMALFORMED").csv(pathC)
+CustomerTransactionFlatten.this.sprk.read.format("CSV").schema(schema).option("mode", "DROPMALFORMED").csv(pathC)
 
-86
+190
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 getTransactionDataFrame
-1381
-1571
+1423
+1582
 36
 scala.util.Try.apply
 Apply
@@ -1519,19 +3290,19 @@ false
 0
 false
 scala.util.Try.apply[org.apache.spark.sql.DataFrame]({
-  val transactionFlat: org.apache.spark.sql.DataFrame = CustomerTransactionFlatten.this.sprk.read.format("CSV").option("header", CustomerTransactionFlatten.this.HEADER_FOR_TRANSACTION_DATA).option("mode", "DROPMALFORMED").csv(pathC);
+  val transactionFlat: org.apache.spark.sql.DataFrame = CustomerTransactionFlatten.this.sprk.read.format("CSV").schema(schema).option("mode", "DROPMALFORMED").csv(pathC);
   transactionFlat
 })
 
-87
+191
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 getTransactionDataFrame
-1664
-1736
+1675
+1747
 44
 <nosymbol>
 Throw
@@ -1540,15 +3311,15 @@ false
 false
 throw new java.io.FileNotFoundException("FileNotFound for Customer Transaction")
 
-88
+192
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 callCustomerTransaction
-2028
-2047
+2039
+2058
 55
 <nosymbol>
 Literal
@@ -1557,15 +3328,15 @@ false
 false
 "sales_week_number"
 
-89
+193
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 callCustomerTransaction
-2061
 2072
+2083
 55
 org.apache.spark.sql.functions.col
 Apply
@@ -1574,15 +3345,15 @@ false
 false
 org.apache.spark.sql.functions.col("date")
 
-90
+194
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 callCustomerTransaction
-2074
-2077
+2085
+2088
 55
 <nosymbol>
 Literal
@@ -1591,15 +3362,15 @@ false
 false
 "w"
 
-91
+195
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 callCustomerTransaction
-2084
 2095
+2106
 55
 org.apache.spark.sql.types.IntegerType
 Select
@@ -1608,15 +3379,15 @@ false
 false
 org.apache.spark.sql.types.IntegerType
 
-92
+196
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 callCustomerTransaction
-2049
-2096
+2060
+2107
 55
 org.apache.spark.sql.Column.cast
 Apply
@@ -1625,15 +3396,15 @@ false
 false
 org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col("date"), "w").cast(org.apache.spark.sql.types.IntegerType)
 
-93
+197
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 callCustomerTransaction
-2117
-2136
+2128
+2147
 56
 <nosymbol>
 Literal
@@ -1642,15 +3413,15 @@ false
 false
 "day_of_sales_week"
 
-94
+198
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 callCustomerTransaction
-2150
 2161
+2172
 56
 org.apache.spark.sql.functions.col
 Apply
@@ -1659,15 +3430,15 @@ false
 false
 org.apache.spark.sql.functions.col("date")
 
-95
+199
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 callCustomerTransaction
-2163
-2166
+2174
+2177
 56
 <nosymbol>
 Literal
@@ -1676,15 +3447,15 @@ false
 false
 "E"
 
-96
+200
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 callCustomerTransaction
-2138
-2167
+2149
+2178
 56
 org.apache.spark.sql.functions.date_format
 Apply
@@ -1693,15 +3464,15 @@ false
 false
 org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col("date"), "E")
 
-97
+201
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\info\CustomerTransactionFlatten.scala
 com.ica.customer.info
 CustomerTransactionFlatten
 Object
 com.ica.customer.info.CustomerTransactionFlatten
 callCustomerTransaction
-2001
-2168
+2012
+2179
 56
 org.apache.spark.sql.Dataset.withColumn
 Apply
@@ -1710,7 +3481,7 @@ false
 false
 transactionFlat.withColumn("sales_week_number", org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col("date"), "w").cast(org.apache.spark.sql.types.IntegerType)).withColumn("day_of_sales_week", org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col("date"), "E"))
 
-98
+202
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\session\SessionInit.scala
 com.ica.customer.session
 SessionInit
@@ -1727,7 +3498,7 @@ false
 false
 org.apache.spark.sql.SparkSession.builder().master("local[*]").getOrCreate()
 
-99
+203
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1744,7 +3515,7 @@ false
 false
 transactionRes.select(org.apache.spark.sql.functions.col("sales_week_number"), org.apache.spark.sql.functions.col("sales").cast(org.apache.spark.sql.types.DoubleType), org.apache.spark.sql.functions.col("customer_id"), org.apache.spark.sql.functions.col("offer_id").alias("offer_redeemed")).join(customerOfferCall.select(org.apache.spark.sql.functions.col("week_number"), org.apache.spark.sql.functions.col("offer_id").alias("offer_received"), org.apache.spark.sql.functions.col("cust_id")), transactionRes.apply("sales_week_number").===(customerOfferCall.apply("week_number")).&&(transactionRes.apply("customer_id").===(customerOfferCall.apply("cust_id"))), "left").select("sales_week_number", "sales", "customer_id", "offer_received", "offer_redeemed")
 
-100
+204
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1761,7 +3532,7 @@ false
 false
 transactionFlatten.join(customerCall.select(org.apache.spark.sql.functions.col("age"), org.apache.spark.sql.functions.col("age_group"), org.apache.spark.sql.functions.col("cust_id")), transactionFlatten.apply("customer_id").===(customerCall.apply("cust_id")), "left").select("sales_week_number", "sales", "customer_id", "offer_received", "offer_redeemed", "age", "age_group")
 
-101
+205
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1778,7 +3549,7 @@ false
 false
 "sales_week_number"
 
-102
+206
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1795,7 +3566,7 @@ false
 false
 "customer_id"
 
-103
+207
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1812,7 +3583,7 @@ false
 false
 "age"
 
-104
+208
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1829,7 +3600,7 @@ false
 false
 "age_group"
 
-105
+209
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1846,7 +3617,7 @@ false
 false
 org.apache.spark.sql.functions.sum("sales").as("sales_sum")
 
-106
+210
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1863,7 +3634,7 @@ false
 false
 org.apache.spark.sql.functions.count("offer_received").as("offer_received_count")
 
-107
+211
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1880,7 +3651,7 @@ false
 false
 org.apache.spark.sql.functions.count("offer_redeemed").as("offer_redeemed_count")
 
-108
+212
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1897,7 +3668,7 @@ false
 false
 org.apache.spark.sql.functions.count("sales_week_number").as("no_of_visit")
 
-109
+213
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1914,7 +3685,7 @@ false
 false
 "sales_week_number"
 
-110
+214
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1931,7 +3702,7 @@ false
 false
 org.apache.spark.sql.functions.col("sales_week_number").asc
 
-111
+215
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1948,7 +3719,7 @@ false
 false
 "customer_id"
 
-112
+216
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1965,7 +3736,7 @@ false
 false
 org.apache.spark.sql.types.IntegerType
 
-113
+217
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1982,7 +3753,7 @@ false
 false
 org.apache.spark.sql.functions.col("customer_id").cast(org.apache.spark.sql.types.IntegerType).asc
 
-114
+218
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -1999,7 +3770,7 @@ false
 false
 transactionFlattenForWeeklyStatus.groupBy("sales_week_number", "customer_id", "age", "age_group").agg(org.apache.spark.sql.functions.sum("sales").as("sales_sum"), org.apache.spark.sql.functions.count("offer_received").as("offer_received_count"), org.apache.spark.sql.functions.count("offer_redeemed").as("offer_redeemed_count"), org.apache.spark.sql.functions.count("sales_week_number").as("no_of_visit")).orderBy(org.apache.spark.sql.functions.col("sales_week_number").asc, org.apache.spark.sql.functions.col("customer_id").cast(org.apache.spark.sql.types.IntegerType).asc)
 
-115
+219
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2016,7 +3787,7 @@ false
 false
 "sales_week_number"
 
-116
+220
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2033,7 +3804,7 @@ false
 false
 org.apache.spark.sql.functions.count("customer_id").cast(org.apache.spark.sql.types.IntegerType).as("customer_count")
 
-117
+221
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2050,7 +3821,7 @@ false
 false
 org.apache.spark.sql.functions.sum("offer_received_count").as("total_offer_received")
 
-118
+222
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2067,7 +3838,7 @@ false
 false
 org.apache.spark.sql.functions.sum("offer_redeemed_count").as("total_offer_redeemed")
 
-119
+223
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2084,7 +3855,7 @@ false
 false
 org.apache.spark.sql.functions.sum("sales_sum").as("total_amount")
 
-120
+224
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2101,7 +3872,7 @@ false
 false
 org.apache.spark.sql.functions.sum("no_of_visit").as("no_of_visit")
 
-121
+225
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2118,7 +3889,7 @@ false
 false
 "sales_week_number"
 
-122
+226
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2135,7 +3906,7 @@ false
 false
 org.apache.spark.sql.types.IntegerType
 
-123
+227
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2152,7 +3923,7 @@ false
 false
 org.apache.spark.sql.functions.col("sales_week_number").cast(org.apache.spark.sql.types.IntegerType).asc
 
-124
+228
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2169,7 +3940,7 @@ false
 false
 customerWiseweeklyStatus.groupBy("sales_week_number").agg(org.apache.spark.sql.functions.count("customer_id").cast(org.apache.spark.sql.types.IntegerType).as("customer_count"), org.apache.spark.sql.functions.sum("offer_received_count").as("total_offer_received"), org.apache.spark.sql.functions.sum("offer_redeemed_count").as("total_offer_redeemed"), org.apache.spark.sql.functions.sum("sales_sum").as("total_amount"), org.apache.spark.sql.functions.sum("no_of_visit").as("no_of_visit")).orderBy(org.apache.spark.sql.functions.col("sales_week_number").cast(org.apache.spark.sql.types.IntegerType).asc)
 
-125
+229
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2189,7 +3960,7 @@ scala.util.Try.apply[org.apache.spark.sql.Dataset[org.apache.spark.sql.Row]]({
   customerOverAllWeeklyStatus
 })
 
-126
+230
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2206,7 +3977,7 @@ false
 false
 throw new scala.`package`.NullPointerException("customerWiseweeklyStatus is null")
 
-127
+231
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2223,7 +3994,7 @@ false
 false
 transaction.join(customerCall, transaction.apply("customer_id").===(customerCall.apply("cust_id")), "inner").select("transaction_id", "customer_id", "product_id", "store_id", "offer_id", "sales", "date", "sales_week_number", "day_of_sales_week", "age_group")
 
-128
+232
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2240,7 +4011,7 @@ false
 false
 "day_of_sales_week"
 
-129
+233
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2257,7 +4028,7 @@ false
 false
 "age_group"
 
-130
+234
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2274,7 +4045,7 @@ false
 false
 org.apache.spark.sql.functions.count("day_of_sales_week").as("days_count")
 
-131
+235
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2291,7 +4062,7 @@ false
 false
 transactionAgeGroup.groupBy("day_of_sales_week", "age_group").agg(org.apache.spark.sql.functions.count("day_of_sales_week").as("days_count"))
 
-132
+236
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2308,7 +4079,7 @@ false
 false
 "age_group"
 
-133
+237
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2325,7 +4096,7 @@ false
 false
 org.apache.spark.sql.functions.max("days_count").as("total")
 
-134
+238
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2342,7 +4113,7 @@ false
 false
 resultOfAgeGroup.groupBy("age_group").agg(org.apache.spark.sql.functions.max("days_count").as("total"))
 
-135
+239
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2359,7 +4130,7 @@ false
 false
 "age_group"
 
-136
+240
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2376,7 +4147,7 @@ false
 false
 resultOfAgeGroupFetch.apply("age_group")
 
-137
+241
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2393,7 +4164,7 @@ false
 false
 "days_count"
 
-138
+242
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2410,7 +4181,7 @@ false
 false
 resultOfAgeGroupFetch.apply("total")
 
-139
+243
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2427,7 +4198,7 @@ false
 false
 resultOfAgeGroup.apply("days_count").===(resultOfAgeGroupFetch.apply("total"))
 
-140
+244
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2444,7 +4215,7 @@ false
 false
 resultOfAgeGroup.apply("age_group").===(resultOfAgeGroupFetch.apply("age_group")).&&(resultOfAgeGroup.apply("days_count").===(resultOfAgeGroupFetch.apply("total")))
 
-141
+245
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2461,7 +4232,7 @@ false
 false
 resultOfAgeGroup.apply("day_of_sales_week")
 
-142
+246
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2478,7 +4249,7 @@ false
 false
 resultOfAgeGroup.apply("age_group")
 
-143
+247
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2495,7 +4266,7 @@ false
 false
 resultOfAgeGroupFetch.apply("total")
 
-144
+248
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2512,7 +4283,7 @@ false
 false
 resultOfAgeGroup.join(resultOfAgeGroupFetch, resultOfAgeGroup.apply("age_group").===(resultOfAgeGroupFetch.apply("age_group")).&&(resultOfAgeGroup.apply("days_count").===(resultOfAgeGroupFetch.apply("total")))).select(resultOfAgeGroup.apply("day_of_sales_week"), resultOfAgeGroup.apply("age_group"), resultOfAgeGroupFetch.apply("total"))
 
-145
+249
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities
@@ -2534,7 +4305,7 @@ scala.util.Try.apply[org.apache.spark.sql.DataFrame]({
   resultAgeGroup
 })
 
-146
+250
 C:\Users\yuvas\IdeaProjects\ICA_POC\src\main\scala\com\ica\customer\utilities\CustomerUtilities.scala
 com.ica.customer.utilities
 CustomerUtilities

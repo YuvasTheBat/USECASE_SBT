@@ -19,6 +19,7 @@ package com.ica.customer.info
 import java.io.FileNotFoundException
 
 import com.ica.customer.session.SessionInit
+import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
@@ -29,6 +30,14 @@ class CustomerTransactionInfo extends  FunSuite with SessionInit {
   val pathCustomerTransactionData = "C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\transaction.csv"
   val invalidPathOfTransactionData = "C:\\Users\\yuvas\\Azure_Study\\VISA\\EASy\\SOURCE\\input\\transactionInvalid.csv"
 
+  val schema = StructType(Array(StructField("transaction_id", StringType, true),
+    StructField("customer_id", StringType, true),
+    StructField("product_id", StringType, true),
+    StructField("store_id",StringType,true),
+    StructField("offer_id",StringType,true),
+    StructField("sales",StringType,true),
+    StructField("date",StringType,true)))
+
   import sprk.implicits._
   private val list_input = List(("5001","2","2001","store_01","10001","2500.0","2020-02-15")
     ,("5003","3","3001","store_02","10002","5000.00","2020-02-24")
@@ -37,13 +46,13 @@ class CustomerTransactionInfo extends  FunSuite with SessionInit {
 
   test("Test for valid transaction details path") {
     val thrown = intercept[FileNotFoundException] {
-      CustomerTransactionFlatten.getTransactionDataFrame(invalidPathOfTransactionData)
+      CustomerTransactionFlatten.getTransactionDataFrame(invalidPathOfTransactionData,schema)
     }
     assert(thrown.getMessage.contains("FileNotFound for Customer Transaction"))
   }
 
   test("Test for valid path of transaction data") {
-    val getTransactionDataFrame = CustomerTransactionFlatten.getTransactionDataFrame(pathCustomerTransactionData)
+    val getTransactionDataFrame = CustomerTransactionFlatten.getTransactionDataFrame(pathCustomerTransactionData,schema)
     assert(getTransactionDataFrame.count() > 0)
   }
 

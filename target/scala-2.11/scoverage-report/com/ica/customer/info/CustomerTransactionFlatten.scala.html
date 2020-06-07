@@ -43,10 +43,10 @@
 </span>19 <span style=''>import java.io.FileNotFoundException
 </span>20 <span style=''>
 </span>21 <span style=''>import scala.util.{Failure, Success, Try}
-</span>22 <span style=''>import org.apache.spark.sql.functions.{date_format,col}
-</span>23 <span style=''>import org.apache.spark.sql.types.IntegerType
+</span>22 <span style=''>import org.apache.spark.sql.functions.{col, date_format}
+</span>23 <span style=''>import org.apache.spark.sql.types.{IntegerType, StructType}
 </span>24 <span style=''>import com.ica.customer.session.SessionInit
-</span>25 <span style=''>import org.apache.spark.sql.DataFrame
+</span>25 <span style=''>import org.apache.spark.sql.{DataFrame, types}
 </span>26 <span style=''>object CustomerTransactionFlatten extends SessionInit {
 </span>27 <span style=''>
 </span>28 <span style=''>  private val HEADER_FOR_TRANSACTION_DATA = </span><span style='background: #AEF1AE'>true</span><span style=''>
@@ -56,9 +56,9 @@
 </span>32 <span style=''>   * @param pathC
 </span>33 <span style=''>   * @return transactionFlat
 </span>34 <span style=''>   */
-</span>35 <span style=''>  def getTransactionDataFrame(pathC:String) : DataFrame = {
+</span>35 <span style=''>  def getTransactionDataFrame(pathC:String,schema:StructType) : DataFrame = {
 </span>36 <span style=''>    val transaction = </span><span style='background: #AEF1AE'>Try ({
-</span>37 <span style=''></span><span style='background: #AEF1AE'>      val  transactionFlat = sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, HEADER_FOR_TRANSACTION_DATA).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;)
+</span>37 <span style=''></span><span style='background: #AEF1AE'>      val  transactionFlat = sprk.read.format(&quot;CSV&quot;).schema(schema).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;)
 </span>38 <span style=''></span><span style='background: #AEF1AE'>        .csv(pathC)
 </span>39 <span style=''></span><span style='background: #AEF1AE'>      transactionFlat
 </span>40 <span style=''></span><span style='background: #AEF1AE'>    })</span><span style=''>
@@ -98,12 +98,12 @@
           28
         </td>
         <td>
-          84
+          188
         </td>
         <td>
-          1153
+          1177
           -
-          1157
+          1181
         </td>
         <td>
           Literal
@@ -119,12 +119,12 @@
           36
         </td>
         <td>
-          86
+          190
         </td>
         <td>
-          1381
+          1423
           -
-          1571
+          1582
         </td>
         <td>
           Apply
@@ -134,7 +134,7 @@
         </td>
         <td style="background: #AEF1AE">
           scala.util.Try.apply[org.apache.spark.sql.DataFrame]({
-  val transactionFlat: org.apache.spark.sql.DataFrame = CustomerTransactionFlatten.this.sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, CustomerTransactionFlatten.this.HEADER_FOR_TRANSACTION_DATA).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC);
+  val transactionFlat: org.apache.spark.sql.DataFrame = CustomerTransactionFlatten.this.sprk.read.format(&quot;CSV&quot;).schema(schema).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC);
   transactionFlat
 })
         </td>
@@ -143,12 +143,12 @@
           38
         </td>
         <td>
-          85
+          189
         </td>
         <td>
-          1418
+          1460
           -
-          1540
+          1551
         </td>
         <td>
           Apply
@@ -157,19 +157,19 @@
           org.apache.spark.sql.DataFrameReader.csv
         </td>
         <td style="background: #AEF1AE">
-          CustomerTransactionFlatten.this.sprk.read.format(&quot;CSV&quot;).option(&quot;header&quot;, CustomerTransactionFlatten.this.HEADER_FOR_TRANSACTION_DATA).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC)
+          CustomerTransactionFlatten.this.sprk.read.format(&quot;CSV&quot;).schema(schema).option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;).csv(pathC)
         </td>
       </tr><tr>
         <td>
           44
         </td>
         <td>
-          87
+          191
         </td>
         <td>
-          1664
+          1675
           -
-          1736
+          1747
         </td>
         <td>
           Throw
@@ -185,12 +185,54 @@
           55
         </td>
         <td>
-          92
+          194
         </td>
         <td>
-          2049
+          2085
           -
-          2096
+          2088
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;w&quot;
+        </td>
+      </tr><tr>
+        <td>
+          55
+        </td>
+        <td>
+          193
+        </td>
+        <td>
+          2072
+          -
+          2083
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.functions.col
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.functions.col(&quot;date&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          55
+        </td>
+        <td>
+          196
+        </td>
+        <td>
+          2060
+          -
+          2107
         </td>
         <td>
           Apply
@@ -206,54 +248,12 @@
           55
         </td>
         <td>
-          89
+          192
         </td>
         <td>
-          2061
+          2039
           -
-          2072
-        </td>
-        <td>
-          Apply
-        </td>
-        <td>
-          org.apache.spark.sql.functions.col
-        </td>
-        <td style="background: #AEF1AE">
-          org.apache.spark.sql.functions.col(&quot;date&quot;)
-        </td>
-      </tr><tr>
-        <td>
-          55
-        </td>
-        <td>
-          91
-        </td>
-        <td>
-          2084
-          -
-          2095
-        </td>
-        <td>
-          Select
-        </td>
-        <td>
-          org.apache.spark.sql.types.IntegerType
-        </td>
-        <td style="background: #AEF1AE">
-          org.apache.spark.sql.types.IntegerType
-        </td>
-      </tr><tr>
-        <td>
-          55
-        </td>
-        <td>
-          88
-        </td>
-        <td>
-          2028
-          -
-          2047
+          2058
         </td>
         <td>
           Literal
@@ -269,96 +269,33 @@
           55
         </td>
         <td>
-          90
+          195
         </td>
         <td>
-          2074
+          2095
           -
-          2077
+          2106
         </td>
         <td>
-          Literal
+          Select
         </td>
         <td>
-          &lt;nosymbol&gt;
+          org.apache.spark.sql.types.IntegerType
         </td>
         <td style="background: #AEF1AE">
-          &quot;w&quot;
+          org.apache.spark.sql.types.IntegerType
         </td>
       </tr><tr>
         <td>
           56
         </td>
         <td>
-          95
+          200
         </td>
         <td>
-          2163
+          2149
           -
-          2166
-        </td>
-        <td>
-          Literal
-        </td>
-        <td>
-          &lt;nosymbol&gt;
-        </td>
-        <td style="background: #AEF1AE">
-          &quot;E&quot;
-        </td>
-      </tr><tr>
-        <td>
-          56
-        </td>
-        <td>
-          94
-        </td>
-        <td>
-          2150
-          -
-          2161
-        </td>
-        <td>
-          Apply
-        </td>
-        <td>
-          org.apache.spark.sql.functions.col
-        </td>
-        <td style="background: #AEF1AE">
-          org.apache.spark.sql.functions.col(&quot;date&quot;)
-        </td>
-      </tr><tr>
-        <td>
-          56
-        </td>
-        <td>
-          97
-        </td>
-        <td>
-          2001
-          -
-          2168
-        </td>
-        <td>
-          Apply
-        </td>
-        <td>
-          org.apache.spark.sql.Dataset.withColumn
-        </td>
-        <td style="background: #AEF1AE">
-          transactionFlat.withColumn(&quot;sales_week_number&quot;, org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col(&quot;date&quot;), &quot;w&quot;).cast(org.apache.spark.sql.types.IntegerType)).withColumn(&quot;day_of_sales_week&quot;, org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col(&quot;date&quot;), &quot;E&quot;))
-        </td>
-      </tr><tr>
-        <td>
-          56
-        </td>
-        <td>
-          96
-        </td>
-        <td>
-          2138
-          -
-          2167
+          2178
         </td>
         <td>
           Apply
@@ -374,12 +311,75 @@
           56
         </td>
         <td>
-          93
+          199
         </td>
         <td>
-          2117
+          2174
           -
-          2136
+          2177
+        </td>
+        <td>
+          Literal
+        </td>
+        <td>
+          &lt;nosymbol&gt;
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;E&quot;
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          198
+        </td>
+        <td>
+          2161
+          -
+          2172
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.functions.col
+        </td>
+        <td style="background: #AEF1AE">
+          org.apache.spark.sql.functions.col(&quot;date&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          201
+        </td>
+        <td>
+          2012
+          -
+          2179
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          org.apache.spark.sql.Dataset.withColumn
+        </td>
+        <td style="background: #AEF1AE">
+          transactionFlat.withColumn(&quot;sales_week_number&quot;, org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col(&quot;date&quot;), &quot;w&quot;).cast(org.apache.spark.sql.types.IntegerType)).withColumn(&quot;day_of_sales_week&quot;, org.apache.spark.sql.functions.date_format(org.apache.spark.sql.functions.col(&quot;date&quot;), &quot;E&quot;))
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          197
+        </td>
+        <td>
+          2128
+          -
+          2147
         </td>
         <td>
           Literal

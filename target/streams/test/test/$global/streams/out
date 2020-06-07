@@ -1,11 +1,11 @@
-[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(com.ica.customer.info.CustomerInfo, org.scalatest.tools.Framework$$anon$1@2c0987df, false, [SuiteSelector])[0m
-[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(com.ica.customer.info.CustomerOfferInfo, org.scalatest.tools.Framework$$anon$1@2c0987df, false, [SuiteSelector])[0m
-[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(com.ica.customer.info.CustomerTransactionInfo, org.scalatest.tools.Framework$$anon$1@2c0987df, false, [SuiteSelector])[0m
-[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(com.ica.customer.utilities.CustomerUtilitiesTest, org.scalatest.tools.Framework$$anon$1@2c0987df, false, [SuiteSelector])[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 45 seconds, 615 milliseconds.[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 21[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(com.ica.customer.info.CustomerOfferInfo, org.scalatest.tools.Framework$$anon$1@6ab0eddd, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(com.ica.customer.utilities.CustomerUtilitiesTest, org.scalatest.tools.Framework$$anon$1@6ab0eddd, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(com.ica.customer.info.CustomerInfo, org.scalatest.tools.Framework$$anon$1@6ab0eddd, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(com.ica.customer.info.CustomerTransactionInfo, org.scalatest.tools.Framework$$anon$1@6ab0eddd, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 59 seconds, 777 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 23[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 4, aborted 0[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 21, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 23, failed 0, canceled 0, ignored 0, pending 0[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
 [0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com.ica.customer.info.CustomerOfferInfo[0m

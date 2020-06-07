@@ -2,6 +2,7 @@
 [0m[[0m[0minfo[0m] [0m[0m[32m- Testing for FileNotFound exception[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- Testing for FileNotFound exception of number table[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- Testing for valid customer offer path[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Unit test for invalid customer offer data[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- Test case for check customer offer dataframe contains new columns after computation[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- Unit test case for compare actual and extected data of customer offer[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- Fail_Scenrio : Unit test case for compare actual and extected data of customer offer[0m[0m

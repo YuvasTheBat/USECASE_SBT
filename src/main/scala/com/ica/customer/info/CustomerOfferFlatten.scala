@@ -19,26 +19,25 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 
 import scala.util.{Failure, Success, Try}
 import java.io.FileNotFoundException
+
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.functions.date_format
 import com.ica.customer.session.SessionInit
-import org.apache.spark.sql.types.IntegerType
+import org.apache.spark.sql.types.{IntegerType, StructType}
 
 
 object CustomerOfferFlatten extends SessionInit {
 
   private val HEADER_FOR_CUSTOMER_OFFER_DATA = true
   private val HEADER_FOR_NUMBER_TABLE = true
-
   /**
    * Method to convert raw data of customer's offer into dataframe and flatten with more ease
    * @param pathC
    * @return customerOfferFlat
    */
-  def getCustomerOfferDataFrame(pathC:String) : DataFrame = {
+  def getCustomerOfferDataFrame(pathC:String,schema:StructType) : DataFrame = {
     val customerOffer =  Try ({
-      val customerOfferFlat = sprk.read.format("CSV")
-        .option("header", HEADER_FOR_CUSTOMER_OFFER_DATA).option("mode", "DROPMALFORMED")
+      val customerOfferFlat = sprk.read.format("CSV").schema(schema).option("mode", "DROPMALFORMED")
         .csv(pathC)
       customerOfferFlat
     })
@@ -60,7 +59,7 @@ object CustomerOfferFlatten extends SessionInit {
     val numberTab = Try ({
       val numberTabForYear = sprk.read.format("CSV")
         .option("header", HEADER_FOR_NUMBER_TABLE)
-        .csv(pathC).select(col("AGE").alias("week_number").cast(IntegerType))
+        .csv(pathC).select(col("number").alias("week_number").cast(IntegerType))
       numberTabForYear
     })
     numberTab match {

@@ -18,13 +18,17 @@ package com.ica.customer.info
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.DataFrame
-import scala.util.{Try,Success,Failure}
+
+import scala.util.{Failure, Success, Try}
 import java.io.FileNotFoundException
+
 import com.ica.customer.session.SessionInit
 import org.apache.spark.sql.functions._
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.text.ParseException
+
+import org.apache.spark.sql.types.{StringType, StructField, StructType}
 //import java.io.IOException
 
 object CustomerFlatten extends SessionInit {
@@ -42,10 +46,10 @@ object CustomerFlatten extends SessionInit {
    * @param pathC
    * @return customerInfo
    */
-  def getCustomerInfoDataFrame(sprk:SparkSession,pathC:String) : DataFrame = {
-
+  def getCustomerInfoDataFrame(sprk:SparkSession,pathC:String,schema:StructType) : DataFrame = {
+    //cust_id,cust_name,cust_dob,gender
     val customerInfo = Try({
-      val customerFlat = sprk.read.format("CSV").option("header",HEADER_FOR_CUSTOMER_DATA).option("mode", "DROPMALFORMED")
+      val customerFlat = sprk.read.format("CSV").schema(schema).option("mode", "DROPMALFORMED")
         .csv(pathC)
       customerFlat
     })
